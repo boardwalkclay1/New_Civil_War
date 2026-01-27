@@ -5,9 +5,6 @@
 <title>Find Your Role – Advanced Assessment</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- MAIN THEME -->
-<link rel="stylesheet" href="theme_space.css">
-
 <style>
 /* ------------------------------
    GLOBAL BLUE MATRIX THEME
@@ -214,7 +211,6 @@ label {
 
   <div class="question-block">
     <div class="question-number">1. Interests</div>
-    <p>Select everything that applies.</p>
     <label><input type="checkbox" name="interests" value="history"> History & Documentation</label>
     <label><input type="checkbox" name="interests" value="fitness"> Fitness & Physical Readiness</label>
     <label><input type="checkbox" name="interests" value="mapping"> Mapping & Navigation</label>
@@ -409,8 +405,12 @@ function draw() {
 setInterval(draw, 40);
 
 // STEP LOGIC
-function showStep(step) {
-  document.querySelectorAll('.rf-step').forEach(s => s.classList.remove('active'));
-  document.getElementById('rfStep' + step).classList.add('active');
+let currentStep = 1;
 
-  document.querySelectorAll('.step-ind
+function updateStepIndicator() {
+  document.querySelectorAll('.step-indicator span').forEach((dot, index) => {
+    dot.classList.toggle('active', index + 1 === currentStep);
+  });
+}
+
+function showStep(step
