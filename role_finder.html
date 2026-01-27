@@ -2,46 +2,72 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Find Your Role</title>
+  <title>Find Your Role – Advanced Assessment</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Manifest + Theme -->
+  <link rel="manifest" href="manifest.json">
   <link id="themeStylesheet" rel="stylesheet" href="theme_default.css">
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
 </head>
 
 <body>
 
-  <header>
-    <h1>Role Assessment</h1>
-    <p>Answer honestly. Everything stays on your device.</p>
-  </header>
+<header>
+  <h1>Role Assessment – Advanced</h1>
+  <p class="subtitle">
+    Answer honestly. Everything stays on your device. Your responses help define your civic role, number, and guidance.
+  </p>
+</header>
+
+<main>
 
   <form id="roleForm">
 
+    <!-- CORE SKILLS -->
     <section>
-      <h2>Skills</h2>
-      <label><input type="checkbox" name="skills" value="communication"> Communication</label>
-      <label><input type="checkbox" name="skills" value="logistics"> Logistics</label>
-      <label><input type="checkbox" name="skills" value="writing"> Writing</label>
-      <label><input type="checkbox" name="skills" value="media"> Media Creation</label>
-      <label><input type="checkbox" name="skills" value="repair"> Repair / Hands‑On</label>
+      <h2>Core Skills</h2>
+      <p>Select all that genuinely describe you.</p>
+
+      <label><input type="checkbox" name="skills" value="communication"> Clear communication (spoken / written)</label>
+      <label><input type="checkbox" name="skills" value="logistics"> Planning, logistics, and coordination</label>
+      <label><input type="checkbox" name="skills" value="writing"> Writing, documenting, or note‑taking</label>
+      <label><input type="checkbox" name="skills" value="media"> Media creation (video, audio, design)</label>
+      <label><input type="checkbox" name="skills" value="repair"> Repair / hands‑on / technical work</label>
+      <label><input type="checkbox" name="skills" value="deescalation"> De‑escalation and calming tense situations</label>
+      <label><input type="checkbox" name="skills" value="organizing"> Organizing people and tasks under pressure</label>
     </section>
 
+    <!-- INTERESTS -->
     <section>
-      <h2>Interests</h2>
-      <label><input type="checkbox" name="interests" value="history"> History</label>
-      <label><input type="checkbox" name="interests" value="fitness"> Fitness</label>
-      <label><input type="checkbox" name="interests" value="community"> Community Support</label>
-      <label><input type="checkbox" name="interests" value="mapping"> Mapping</label>
-      <label><input type="checkbox" name="interests" value="analysis"> Analysis</label>
+      <h2>Interests & Focus</h2>
+      <p>What are you naturally drawn to?</p>
+
+      <label><input type="checkbox" name="interests" value="history"> History and long‑term patterns</label>
+      <label><input type="checkbox" name="interests" value="fitness"> Fitness and physical readiness</label>
+      <label><input type="checkbox" name="interests" value="community"> Community support and mutual aid</label>
+      <label><input type="checkbox" name="interests" value="mapping"> Mapping, routes, and spatial awareness</label>
+      <label><input type="checkbox" name="interests" value="analysis"> Analysis, systems, and strategy</label>
+      <label><input type="checkbox" name="interests" value="documentation"> Documentation, journaling, or archiving</label>
+      <label><input type="checkbox" name="interests" value="storytelling"> Storytelling, narrative, and media</label>
     </section>
 
+    <!-- FITNESS -->
     <section>
-      <h2>Fitness</h2>
+      <h2>Physical Readiness</h2>
+      <p>This helps match you to roles that fit your current capacity, not an ideal version of you.</p>
+
       <label>Do you exercise?
         <select name="exercise">
           <option value="none">Not really</option>
-          <option value="light">Light</option>
-          <option value="moderate">Moderate</option>
-          <option value="heavy">Heavy</option>
+          <option value="light">Light (walks, light activity)</option>
+          <option value="moderate">Moderate (regular workouts, sports)</option>
+          <option value="heavy">Heavy (intense training, long runs)</option>
         </select>
       </label>
 
@@ -54,9 +80,173 @@
       </label>
     </section>
 
+    <!-- SITUATIONAL JUDGMENT: HOME VISIT -->
+    <section>
+      <h2>Scenario: An Agent Knocks on Your Door</h2>
+      <p>
+        Imagine a government or law‑enforcement agent knocks on your door unexpectedly and asks to come inside and talk.
+        You are not in immediate danger, but you feel uneasy. What best matches how you would respond?
+      </p>
+
+      <label>
+        <input type="radio" name="agent_door" value="calm_boundary">
+        Stay calm, keep the door mostly closed, ask for identification, and state clearly that you prefer to speak through the door or schedule a time with a lawyer present.
+      </label>
+
+      <label>
+        <input type="radio" name="agent_door" value="document_and_verify">
+        Politely ask for written information or a card, document the interaction (time, name, agency), and verify details later before engaging further.
+      </label>
+
+      <label>
+        <input type="radio" name="agent_door" value="immediate_compliance">
+        Immediately invite them in and answer questions without asking for clarification or support.
+      </label>
+
+      <label>
+        <input type="radio" name="agent_door" value="panic_withdraw">
+        Feel overwhelmed, say very little, and try to end the interaction quickly without gathering information.
+      </label>
+    </section>
+
+    <!-- SITUATIONAL JUDGMENT: PUBLIC ARREST -->
+    <section>
+      <h2>Scenario: You Witness a Possibly Unlawful Arrest</h2>
+      <p>
+        You see an agent detaining or arresting a person in public. The situation looks tense, and you suspect the person’s rights may not be respected. You are not directly involved.
+      </p>
+
+      <label>
+        <input type="radio" name="agent_arrest" value="observe_and_document">
+        Keep a safe distance, calmly observe, and discreetly record details (time, location, visible badge numbers) without interfering or escalating.
+      </label>
+
+      <label>
+        <input type="radio" name="agent_arrest" value="witness_support">
+        From a safe distance, calmly state that you are a witness, and if appropriate, offer the detained person your contact information later so they have someone who saw what happened.
+      </label>
+
+      <label>
+        <input type="radio" name="agent_arrest" value="direct_confrontation">
+        Step in close, verbally confront the agent, and argue about the situation in the moment.
+      </label>
+
+      <label>
+        <input type="radio" name="agent_arrest" value="leave_immediately">
+        Leave the area immediately and avoid any involvement, even as a witness.
+      </label>
+    </section>
+
+    <!-- SITUATIONAL JUDGMENT: DIRECT APPROACH -->
+    <section>
+      <h2>Scenario: An Agent Approaches You Directly</h2>
+      <p>
+        An agent approaches you in a public space, asks questions about an event or group, and you feel cautious. You are not under arrest.
+      </p>
+
+      <label>
+        <input type="radio" name="agent_approach" value="ask_clarity_and_rights">
+        Calmly ask if you are free to leave, what the conversation is about, and consider stating that you prefer to speak with a lawyer before answering detailed questions.
+      </label>
+
+      <label>
+        <input type="radio" name="agent_approach" value="limited_neutral_answers">
+        Provide brief, neutral answers that do not speculate, avoid sharing information about others, and keep the interaction short.
+      </label>
+
+      <label>
+        <input type="radio" name="agent_approach" value="overshare">
+        Answer every question in detail, including information about other people, without asking why the questions are being asked.
+      </label>
+
+      <label>
+        <input type="radio" name="agent_approach" value="shut_down">
+        Refuse to speak at all, walk away abruptly, and avoid any acknowledgment.
+      </label>
+    </section>
+
+    <!-- SITUATIONAL JUDGMENT: ESCALATED FORCE (MACE / WEAPONS MENTIONED ABSTRACTLY) -->
+    <section>
+      <h2>Scenario: Escalated Force in a Crowd</h2>
+      <p>
+        You are present at a public gathering. Agents begin using crowd‑control tools like mace or other forceful measures. You are not a leader, but you are nearby and aware.
+      </p>
+
+      <label>
+        <input type="radio" name="crowd_force" value="help_people_exit">
+        Focus on calmly helping nearby people move to safer areas, guiding them away from the source of danger without escalating the situation.
+      </label>
+
+      <label>
+        <input type="radio" name="crowd_force" value="document_from_safety">
+        Move to a safer distance and document what is happening, noting time, location, and visible details without interfering.
+      </label>
+
+      <label>
+        <input type="radio" name="crowd_force" value="medical_support">
+        If you have relevant training, focus on basic, non‑invasive support like helping people rinse eyes with clean water and encouraging them to seek proper medical care.
+      </label>
+
+      <label>
+        <input type="radio" name="crowd_force" value="confront_agents">
+        Move closer to agents, shout at them, and attempt to argue or confront them directly in the moment.
+      </label>
+    </section>
+
+    <!-- SELF‑CHECK: EMOTIONAL STYLE -->
+    <section>
+      <h2>How Do You Respond Under Pressure?</h2>
+      <p>When situations feel tense or unfair, what best describes your natural first response?</p>
+
+      <label><input type="radio" name="pressure_style" value="calm_planner"> I slow down, plan, and think about next steps.</label>
+      <label><input type="radio" name="pressure_style" value="protector"> I focus on protecting people around me.</label>
+      <label><input type="radio" name="pressure_style" value="messenger"> I focus on getting accurate information to others.</label>
+      <label><input type="radio" name="pressure_style" value="witness"> I focus on observing and documenting clearly.</label>
+      <label><input type="radio" name="pressure_style" value="withdraw"> I tend to withdraw and process later.</label>
+    </section>
+
+    <!-- FUTURE ROLE GUIDANCE HOOK -->
+    <section>
+      <h2>How Do You Prefer to Contribute?</h2>
+      <p>This helps generate tips and guidance for your final role profile.</p>
+
+      <label><input type="checkbox" name="contribution" value="frontline_support"> Being physically present and supportive in person.</label>
+      <label><input type="checkbox" name="contribution" value="remote_support"> Helping remotely with planning, research, or communication.</label>
+      <label><input type="checkbox" name="contribution" value="education"> Teaching, explaining, or helping others understand their options.</label>
+      <label><input type="checkbox" name="contribution" value="logistics_backend"> Working behind the scenes on logistics and systems.</label>
+      <label><input type="checkbox" name="contribution" value="creative_narrative"> Creating stories, visuals, or media that explain what’s happening.</label>
+    </section>
+
     <button type="submit" class="menu-btn">Generate My Role</button>
 
   </form>
+
+  <section class="after-note">
+    <h2>What Happens Next?</h2>
+    <p>
+      When you submit, this app will combine your skills, interests, physical readiness, and situational responses
+      into a single civic role with a <strong>Role Number</strong>, category, and tailored tips. That result will appear on:
+    </p>
+    <ul>
+      <li><a href="role_result.html">Your Role Result</a> page</li>
+      <li><a href="profile.html">Your Profile</a> page</li>
+    </ul>
+    <p>
+      All of this stays local on your device. You can reset everything anytime from the
+      <a href="settings.html">Settings</a> page.
+    </p>
+  </section>
+
+</main>
+
+<!-- JS: core + role pipeline -->
+<script src="storage_manager.js"></script>
+<script src="theme_manager.js"></script>
+<script src="role_engine.js"></script>
+<script src="role_form_handler.js"></script>
+<script src="role_database.js"></script>
+<script src="role_finder.js"></script>
+<script src="app_bootstrap.js"></script>
 
 </body>
 </html>
