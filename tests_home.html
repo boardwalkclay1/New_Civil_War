@@ -2,31 +2,182 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Math & Science Trials</title>
+  <title>Assessment Trials</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link id="themeStylesheet" rel="stylesheet" href="theme_default.css">
+
+  <!-- THEME -->
+  <link id="themeStylesheet" rel="stylesheet" href="theme_space.css">
+
+  <style>
+    /* HAMBURGER */
+    #hamburger {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 40px;
+      height: 30px;
+      cursor: pointer;
+      z-index: 2000;
+    }
+    #hamburger div {
+      width: 100%;
+      height: 6px;
+      background: #00c8ff;
+      margin: 5px 0;
+      box-shadow: 0 0 8px #00c8ff;
+      transition: 0.3s;
+    }
+
+    /* SLIDE MENU */
+    #sideMenu {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 260px;
+      height: 100vh;
+      background: rgba(0, 20, 40, 0.95);
+      border-right: 2px solid #00aaff;
+      box-shadow: 0 0 20px #0094ff;
+      padding: 20px;
+      z-index: 1500;
+      transition: left 0.3s ease;
+      font-family: "Courier New", monospace;
+    }
+    #sideMenu a {
+      display: block;
+      margin: 14px 0;
+      color: #8fd3ff;
+      text-decoration: none;
+      font-size: 1.1rem;
+      text-shadow: 0 0 6px #00c8ff;
+    }
+    #sideMenu.open {
+      left: 0;
+    }
+
+    /* STATUS BAR */
+    #moduleStatus {
+      margin: 20px;
+      padding: 12px;
+      background: rgba(0, 30, 60, 0.7);
+      border: 1px solid #00aaff;
+      border-radius: 6px;
+      color: #8fd3ff;
+      text-shadow: 0 0 6px #00c8ff;
+      font-size: 1rem;
+    }
+
+    /* PAGE CONTENT */
+    header h1 {
+      margin-top: 80px;
+      text-align: center;
+      color: #00c8ff;
+      text-shadow: 0 0 10px #00c8ff;
+    }
+    header p {
+      text-align: center;
+      color: #8fd3ff;
+      margin-bottom: 30px;
+    }
+
+    .menu {
+      padding: 20px;
+    }
+    .menu h2 {
+      color: #00c8ff;
+      text-shadow: 0 0 6px #00c8ff;
+      margin-top: 30px;
+    }
+    .menu-btn {
+      display: block;
+      margin: 10px 0;
+      padding: 12px;
+      background: rgba(0, 30, 60, 0.7);
+      border: 1px solid #00aaff;
+      border-radius: 6px;
+      color: #8fd3ff;
+      text-decoration: none;
+      text-align: center;
+      box-shadow: 0 0 10px #0077cc;
+    }
+  </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>Math & Science Trials</h1>
-    <p>Earn badges by passing offline tests.</p>
-  </header>
+<!-- HAMBURGER -->
+<div id="hamburger">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
 
-  <section class="menu">
-    <h2>Math Tests</h2>
-    <a href="test_math_arithmetic.html" class="menu-btn">Arithmetic Trial</a>
-    <a href="test_math_algebra.html" class="menu-btn">Algebra Trial</a>
-    <a href="test_math_geometry.html" class="menu-btn">Geometry Trial</a>
+<!-- SLIDE MENU -->
+<nav id="sideMenu">
+  <h2 style="color:#00c8ff; text-shadow:0 0 8px #00c8ff;">Navigation</h2>
+  <a href="index.html">Home</a>
+  <a href="role_finder.html">Find Your Role</a>
+  <a href="role_list.html">All Roles</a>
+  <a href="tests_home.html">Assessment Trials</a>
+  <a href="run_tracker.html">1‑Mile Run Tracker</a>
+  <a href="profile.html">My Profile</a>
+  <a href="settings.html">Settings</a>
+</nav>
 
-    <h2>Science Tests</h2>
-    <a href="test_science_elements.html" class="menu-btn">Everyday Elements</a>
-    <a href="test_science_states.html" class="menu-btn">States of Matter</a>
-    <a href="test_science_combined.html" class="menu-btn">Combined Science Trial</a>
-  </section>
+<header>
+  <h1>Assessment Trials</h1>
+  <p>Complete all modules to unlock your Role ID.</p>
+</header>
 
+<!-- STATUS BAR -->
+<div id="moduleStatus">Loading module status...</div>
+
+<main class="menu">
+
+  <h2>Required Modules</h2>
+  <a href="reading_test.html" class="menu-btn">Reading Trial</a>
+  <a href="typing_test.html" class="menu-btn">Typing Speed Trial</a>
+
+  <h2>Math Trials</h2>
+  <a href="test_math_arithmetic.html" class="menu-btn">Arithmetic Trial</a>
+  <a href="test_math_algebra.html" class="menu-btn">Algebra Trial</a>
+  <a href="test_math_geometry.html" class="menu-btn">Geometry Trial</a>
+
+  <h2>Science Trials</h2>
+  <a href="test_science_elements.html" class="menu-btn">Everyday Elements</a>
+  <a href="test_science_states.html" class="menu-btn">States of Matter</a>
+  <a href="test_science_combined.html" class="menu-btn">Combined Science Trial</a>
+
+  <a href="role_finder.html" class="menu-btn" style="margin-top:40px;">Return to Role Finder</a>
   <a href="index.html" class="menu-btn">Back to Home</a>
+
+</main>
+
+<script src="storage_manager.js"></script>
+<script src="assessment_state.js"></script>
+
+<script>
+  // HAMBURGER MENU
+  const hamburger = document.getElementById("hamburger");
+  const sideMenu = document.getElementById("sideMenu");
+  hamburger.addEventListener("click", () => sideMenu.classList.toggle("open"));
+
+  // STATUS BAR LOADER
+  function updateModuleStatus() {
+    const s = AssessmentState.load();
+    const el = document.getElementById("moduleStatus");
+
+    const mathDone = s.math.bestScore !== null ? "✔" : " ";
+    const sciDone = s.science.bestScore !== null ? "✔" : " ";
+    const readDone = s.reading.bestScore !== null ? "✔" : " ";
+    const typeDone = s.typing && s.typing.bestScore !== null ? "✔" : " ";
+
+    el.textContent =
+      `Reading [${readDone}] • Typing [${typeDone}] • Math [${mathDone}] • Science [${sciDone}]`;
+  }
+
+  updateModuleStatus();
+</script>
 
 </body>
 </html>
