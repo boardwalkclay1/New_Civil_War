@@ -1,0 +1,28 @@
+/* BADGES */
+
+#badgeList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.badge {
+  background: #d4b98a;
+  border: 2px solid #8b6a3e;
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Georgia", serif;
+  font-weight: bold;
+  color: #3a2f1b;
+  text-align: center;
+  padding: 10px;
+}
+
+.badge-earned {
+  box-shadow: 0 0 10px rgba(139, 106, 62, 0.8);
+}
