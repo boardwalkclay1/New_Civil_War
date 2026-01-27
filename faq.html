@@ -2,42 +2,186 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>FAQ</title>
+  <title>FAQ – The New Civil War</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="theme_default.css">
+
+  <!-- Manifest + Theme -->
+  <link rel="manifest" href="manifest.json">
+  <link id="themeStylesheet" rel="stylesheet" href="theme_default.css">
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
 </head>
 
 <body>
 
 <header>
   <h1>Frequently Asked Questions</h1>
+  <p class="subtitle">
+    How this app works, what your role means, and how your data stays yours.
+  </p>
 </header>
 
-<main>
+<main id="faqList">
 
-  <section>
+  <section class="faq-item">
     <h2>How does the role system work?</h2>
-    <p>Your answers determine which of the 15 civic roles fits you best.</p>
+    <p>
+      The role system uses your answers from the
+      <a href="role_finder.html">Find Your Role</a> questionnaire to calculate
+      which of the <a href="role_list.html">15 civic roles</a> best matches your
+      skills, interests, and physical readiness.
+    </p>
+    <p>
+      Behind the scenes, your answers are converted into scores across several
+      <a href="glossary.html#category">categories</a> like
+      <strong>Information Flow</strong>, <strong>Supplies & Resource Management</strong>,
+      and <strong>Mutual Aid & Support</strong>. The highest‑scoring category
+      determines your primary role, and that role is assigned a unique
+      <a href="glossary.html#role-number">Role Number</a> for quick reference.
+    </p>
   </section>
 
-  <section>
+  <section class="faq-item">
+    <h2>What is a Role Number?</h2>
+    <p>
+      A <a href="glossary.html#role-number">Role Number</a> is a unique ID that
+      ties you to a specific civic role, like <strong>#1 Signal Runner</strong>
+      or <strong>#10 Chronicler</strong>. It makes it easy to form balanced
+      teams quickly—if you know you have a #4, #7, and #12 in a group, you
+      instantly know you have supplies, logistics, and media covered.
+    </p>
+  </section>
+
+  <section class="faq-item">
+    <h2>What are categories and why do they matter?</h2>
+    <p>
+      Each role belongs to a broader
+      <a href="glossary.html#category">Category</a>, such as
+      <strong>Information Flow</strong> or <strong>Logistics & Planning</strong>.
+      Categories help you understand not just what you do, but how you fit into
+      a larger civic system. When multiple people share their roles, you can
+      quickly see which categories are strong and which are missing.
+    </p>
+    <p>
+      You can explore all categories and their roles on the
+      <a href="categories.html">Role Categories</a> page.
+    </p>
+  </section>
+
+  <section class="faq-item">
     <h2>Is my data private?</h2>
-    <p>Yes. Everything is stored locally on your device only.</p>
+    <p>
+      Yes. All data is stored locally on your device only. The app does not send
+      your answers, runs, or badges to any server. There is no login, no cloud
+      sync, and no hidden network calls.
+    </p>
+    <p>
+      You can confirm this by reviewing the
+      <a href="glossary.html#local-storage">Local Storage</a> entry in the
+      glossary and by exporting your data from the
+      <a href="data_export.html">Export / Import Data</a> page to see exactly
+      what is stored.
+    </p>
   </section>
 
-  <section>
-    <h2>Do I need internet?</h2>
-    <p>No. The app is fully offline after first load.</p>
+  <section class="faq-item">
+    <h2>Do I need internet to use this app?</h2>
+    <p>
+      You only need internet once—to load or install the app. After that, the
+      app is designed to run fully offline using your browser’s
+      <a href="glossary.html#pwa">PWA</a> and
+      <a href="glossary.html#service-worker">Service Worker</a> capabilities.
+    </p>
+    <p>
+      If you lose connection, the app will still open, your data will still be
+      available, and core pages will still function. If a page can’t load, you
+      will see the <a href="offline.html">Offline</a> or
+      <a href="error.html">Error</a> page instead of a blank screen.
+    </p>
   </section>
 
-  <section>
-    <h2>What are badges?</h2>
-    <p>Badges are earned by passing math and science tests.</p>
+  <section class="faq-item">
+    <h2>What are badges and how do I earn them?</h2>
+    <p>
+      <a href="glossary.html#badge">Badges</a> are distinctions you earn by
+      passing specific <a href="tests_home.html">Math & Science Trials</a>.
+      Each test has its own badge—for example, passing the arithmetic trial
+      might grant you a <strong>Arithmetic Adept</strong> badge, while passing
+      the combined science trial might grant you a
+      <strong>Systems Observer</strong> badge.
+    </p>
+    <p>
+      Badges appear on your <a href="profile.html">Profile</a> and help you
+      signal extra skills when forming teams.
+    </p>
+  </section>
+
+  <section class="faq-item">
+    <h2>What is the 1‑Mile Run Tracker for?</h2>
+    <p>
+      The <a href="run_tracker.html">1‑Mile Run Tracker</a> is a simple way to
+      measure your physical readiness over time. Your best mile time is stored
+      locally and displayed on your <a href="profile.html">Profile</a> and
+      <a href="share_card.html">Share Card</a>.
+    </p>
+    <p>
+      The glossary entry for <a href="glossary.html#run-tracker">Run Tracker</a>
+      explains how times are stored, how history is logged, and how this data
+      is used in the app.
+    </p>
+  </section>
+
+  <section class="faq-item">
+    <h2>What is the Share Card?</h2>
+    <p>
+      The <a href="share_card.html">Share Card</a> is a visual summary of your
+      role, role number, category, and best mile time. It’s designed to be
+      saved as an image and shared in group chats, printed, or used in
+      in‑person meetups.
+    </p>
+    <p>
+      The glossary entry for <a href="glossary.html#share-card">Share Card</a>
+      breaks down each field and how it’s generated.
+    </p>
+  </section>
+
+  <section class="faq-item">
+    <h2>Can I reset everything and start over?</h2>
+    <p>
+      Yes. On the <a href="settings.html">Settings</a> page, you can choose to
+      reset all local data. This clears your role, run history, badges, and
+      any other stored information. The glossary entry
+      <a href="glossary.html#data-reset">Data Reset</a> explains exactly what
+      is removed.
+    </p>
+  </section>
+
+  <section class="faq-item">
+    <h2>Where can I see definitions of all these terms?</h2>
+    <p>
+      The <a href="glossary.html">Glossary</a> is the central reference for all
+      key concepts in this app: <a href="glossary.html#role-number">Role Number</a>,
+      <a href="glossary.html#category">Category</a>,
+      <a href="glossary.html#badge">Badge</a>,
+      <a href="glossary.html#run-tracker">Run Tracker</a>,
+      <a href="glossary.html#pwa">PWA</a>,
+      <a href="glossary.html#service-worker">Service Worker</a>, and more.
+    </p>
   </section>
 
   <a href="index.html" class="menu-btn">Back to Home</a>
 
 </main>
+
+<!-- Core JS -->
+<script src="storage_manager.js"></script>
+<script src="theme_manager.js"></script>
+<script src="app_bootstrap.js"></script>
+<script src="faq_loader.js"></script>
 
 </body>
 </html>
