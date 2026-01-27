@@ -1,31 +1,60 @@
-/* DEFAULT LAYOUT */
+/* DEFAULT LAYOUT – BLUE MATRIX TERMINAL MODE */
 
+/* HEADER */
 header {
   text-align: center;
   padding: 20px;
-  background: rgba(255, 248, 230, 0.9);
-  border-bottom: 3px solid #b89a6a;
+  background: rgba(0, 20, 40, 0.85);
+  border-bottom: 3px solid #00aaff;
+  box-shadow: 0 0 14px #0094ff;
+  color: #8fd3ff;
+  font-family: "Courier New", monospace;
+  animation: matrixPulse 5s infinite ease-in-out;
 }
 
+/* MAIN CONTENT AREA */
 main {
   max-width: 900px;
   margin: auto;
   padding: 20px;
+  color: #8fd3ff;
+  font-family: "Courier New", monospace;
 }
 
+/* APP CONTENT FADE-IN */
 #app-content {
   animation: fadeIn 1s ease-in-out forwards;
 }
 
+/* FADE-IN ANIMATION */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
+/* THEME SWITCHER BUTTONS */
 .theme-switcher button {
   margin: 10px;
   padding: 10px;
-  background: #d4b98a;
-  border: 2px solid #8b6a3e;
+  background: rgba(0, 20, 40, 0.85);
+  border: 2px solid #00aaff;
   border-radius: 6px;
+  color: #8fd3ff;
+  font-family: "Courier New", monospace;
+  cursor: pointer;
+  box-shadow: 0 0 10px #007acc;
+  transition: 0.2s ease;
+}
+
+.theme-switcher button:hover {
+  background: rgba(0, 40, 70, 0.9);
+  border-color: #00d4ff;
+  box-shadow: 0 0 14px #00d4ff;
+}
+
+/* MATRIX PULSE GLOW */
+@keyframes matrixPulse {
+  0% { box-shadow: 0 0 6px #007acc; }
+  50% { box-shadow: 0 0 14px #00c8ff; }
+  100% { box-shadow: 0 0 6px #007acc; }
 }
