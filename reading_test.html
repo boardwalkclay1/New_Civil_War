@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reading Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link id="themeStylesheet" rel="stylesheet" href="theme_space.css">
+</head>
+
+<body>
+
+<header>
+  <h1>Reading Test</h1>
+  <p class="subtitle">Read the passage and answer the questions.</p>
+</header>
+
+<main id="app-content" class="matrix-panel">
+
+  <section>
+    <h2>Passage</h2>
+    <p id="readingPassage">
+      In a crisis, communities rely on clear communication, coordinated action, and shared responsibility...
+    </p>
+  </section>
+
+  <form id="readingForm">
+
+    <h3>1. What is the main idea of the passage?</h3>
+    <label><input type="radio" name="q1" value="a"> Communities collapse without leadership.</label>
+    <label><input type="radio" name="q1" value="b"> Communication and coordination are essential.</label>
+    <label><input type="radio" name="q1" value="c"> Technology solves all problems.</label>
+
+    <h3>2. What does the passage imply?</h3>
+    <label><input type="radio" name="q2" value="a"> People act alone in crises.</label>
+    <label><input type="radio" name="q2" value="b"> Shared responsibility strengthens resilience.</label>
+    <label><input type="radio" name="q2" value="c"> Maps are more important than communication.</label>
+
+    <button type="submit" class="menu-btn">Submit Reading Test</button>
+
+  </form>
+
+</main>
+
+<script src="storage_manager.js"></script>
+<script src="assessment_state.js"></script>
+<script src="reading_test.js"></script>
+
+</body>
+</html>
