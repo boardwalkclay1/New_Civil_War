@@ -4,285 +4,109 @@
   <meta charset="UTF-8">
   <title>Find Your Role</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link id="themeStylesheet" rel="stylesheet" href="theme_default.css">
+
+  <link id="themeStylesheet" rel="stylesheet" href="theme_space.css">
 </head>
 
 <body>
 
+<!-- DASHBOARD ICON -->
+<div id="dashboardIcon" class="dashboard-icon matrix-pulse">◎</div>
+
+<!-- DASHBOARD PANEL -->
+<div id="dashboardPanel" class="dashboard-panel">
+  <h2>Assessment Dashboard</h2>
+  <p id="dashAttempts"></p>
+  <p id="dashLieFlags"></p>
+  <p id="dashChangeFlags"></p>
+  <p id="dashMath"></p>
+  <p id="dashReading"></p>
+  <p id="dashScience"></p>
+  <p id="dashHistory"></p>
+  <p id="dashRole"></p>
+</div>
+
 <header>
   <h1>Find Your Role</h1>
-  <p>
-    Answer honestly. This is not a test—it’s a way to see how you naturally move in real situations.
-    All answers stay on your device.
-  </p>
+  <p class="subtitle">This is the advanced assessment. All modules feed into your final role.</p>
 </header>
 
-<main>
+<main id="app-content">
 
-  <section class="role-intro">
-    <h2>Before You Start</h2>
-    <p>
-      This app maps you into one of <strong>15 roles</strong> across six categories:
-      Information Flow, Supplies & Resource Management, Logistics & Planning,
-      Documentation & Storytelling, Narrative & Media, and Mutual Aid & Support.
-    </p>
-    <p>
-      You can review all roles here:
-      <a href="role_list.html">View All 15 Roles</a> ·
-      <a href="history.html">History & Documentation</a> ·
-      <a href="glossary.html">Glossary</a>
-    </p>
+  <!-- MODULE LINKS -->
+  <section class="matrix-panel">
+    <h2>Required Modules</h2>
+    <p>Complete these for maximum accuracy:</p>
+
+    <a href="math_test.html" class="menu-btn small">Math Test</a>
+    <a href="reading_test.html" class="menu-btn small">Reading Test</a>
+    <a href="science_test.html" class="menu-btn small">Science Test</a>
+    <a href="history_test.html" class="menu-btn small">History Test</a>
+
+    <p class="note">Your scores will automatically feed into this assessment.</p>
   </section>
 
-  <form id="roleForm">
-
-    <!-- SKILLS -->
-    <section class="form-block">
-      <h2>Your Skills</h2>
-      <p>Pick the skills that feel most natural to you in real life.</p>
-      <label>
-        <input type="checkbox" name="skills" value="communication">
-        Clear communication (explaining, calming, relaying info)
-      </label>
-      <label>
-        <input type="checkbox" name="skills" value="logistics">
-        Planning and logistics (timelines, steps, coordination)
-      </label>
-      <label>
-        <input type="checkbox" name="skills" value="writing">
-        Writing and documentation (notes, summaries, reports)
-      </label>
-      <label>
-        <input type="checkbox" name="skills" value="media">
-        Visuals / media (design, video, social posts)
-      </label>
-      <label>
-        <input type="checkbox" name="skills" value="repair">
-        Hands‑on help (fixing, carrying, setting up, support)
-      </label>
-    </section>
+  <!-- ROLE FINDER FORM -->
+  <form id="roleFinderForm" class="matrix-panel">
 
     <!-- INTERESTS -->
-    <section class="form-block">
-      <h2>Your Interests</h2>
-      <p>What are you naturally drawn to?</p>
-      <label>
-        <input type="checkbox" name="interests" value="history">
-        History, stories, and how things got this way
-      </label>
-      <label>
-        <input type="checkbox" name="interests" value="fitness">
-        Fitness, movement, and physical readiness
-      </label>
-      <label>
-        <input type="checkbox" name="interests" value="community">
-        Community, people, and mutual support
-      </label>
-      <label>
-        <input type="checkbox" name="interests" value="mapping">
-        Maps, routes, and spatial awareness
-      </label>
-      <label>
-        <input type="checkbox" name="interests" value="analysis">
-        Patterns, systems, and problem‑solving
-      </label>
-    </section>
+    <h2>Interests</h2>
+    <label><input type="checkbox" name="interests" value="history"> History & Documentation</label>
+    <label><input type="checkbox" name="interests" value="fitness"> Fitness & Physical Readiness</label>
+    <label><input type="checkbox" name="interests" value="mapping"> Mapping & Navigation</label>
+    <label><input type="checkbox" name="interests" value="media"> Media & Design</label>
+    <label><input type="checkbox" name="interests" value="community"> Community Support</label>
+    <label><input type="checkbox" name="interests" value="analysis"> Analysis & Strategy</label>
 
-    <!-- EXERCISE -->
-    <section class="form-block">
-      <h2>Exercise & Movement</h2>
-      <p>How would you describe your usual physical activity?</p>
-      <label>
-        <input type="radio" name="exercise" value="heavy" required>
-        Heavy – regular intense exercise, sports, or physical work
-      </label>
-      <label>
-        <input type="radio" name="exercise" value="moderate">
-        Moderate – walks, light workouts, or active job
-      </label>
-      <label>
-        <input type="radio" name="exercise" value="low">
-        Low – mostly seated or light movement
-      </label>
-    </section>
+    <!-- PHYSICAL ACTIVITY -->
+    <h2>Physical Activity</h2>
+    <label><input type="radio" name="exercise" value="heavy"> Heavy (sports, lifting, running)</label>
+    <label><input type="radio" name="exercise" value="moderate"> Moderate (walking, light workouts)</label>
+    <label><input type="radio" name="exercise" value="low"> Low (mostly seated)</label>
 
-    <!-- SITUATIONAL: AGENT AT DOOR -->
-    <section class="form-block">
-      <h2>Scenario: Agent at Your Door</h2>
-      <p>
-        A government agent knocks on your door asking questions about your building. You are not under arrest.
-        What is your most natural response?
-      </p>
-      <label>
-        <input type="radio" name="agent_door" value="calm_boundary" required>
-        Stay calm, ask who they are, what they need, and set clear boundaries.
-      </label>
-      <label>
-        <input type="radio" name="agent_door" value="document_and_verify">
-        Quietly document (notes, time, details) and verify everything they say.
-      </label>
-      <label>
-        <input type="radio" name="agent_door" value="immediate_compliance">
-        Answer everything quickly to get it over with.
-      </label>
-      <label>
-        <input type="radio" name="agent_door" value="panic_withdraw">
-        Feel overwhelmed, say as little as possible, and hope it ends.
-      </label>
-    </section>
+    <!-- LIE DETECTION (CONSISTENCY QUESTIONS) -->
+    <h2>Consistency Check</h2>
+    <label><input type="radio" name="pressure_style" value="calm"> I stay calm and plan under pressure</label>
+    <label><input type="radio" name="pressure_style" value="reactive"> I react fast and move first</label>
+    <label><input type="radio" name="pressure_style" value="supportive"> I focus on helping others</label>
 
-    <!-- SITUATIONAL: WITNESS ARREST -->
-    <section class="form-block">
-      <h2>Scenario: You Witness an Arrest</h2>
-      <p>
-        You see someone being arrested in public. You are not directly involved. What do you do first?
-      </p>
-      <label>
-        <input type="radio" name="agent_arrest" value="observe_and_document" required>
-        Observe from a safe distance and document what you see.
-      </label>
-      <label>
-        <input type="radio" name="agent_arrest" value="witness_support">
-        Ask nearby people if they’re okay, offer to be a witness later.
-      </label>
-      <label>
-        <input type="radio" name="agent_arrest" value="direct_confrontation">
-        Confront the officers verbally about what they’re doing.
-      </label>
-      <label>
-        <input type="radio" name="agent_arrest" value="leave_immediately">
-        Leave the area as quickly as possible.
-      </label>
-    </section>
+    <label><input type="radio" name="pressure_style_check" value="calm"> I prefer to think before acting</label>
+    <label><input type="radio" name="pressure_style_check" value="reactive"> I act before thinking</label>
+    <label><input type="radio" name="pressure_style_check" value="supportive"> I help people first</label>
 
-    <!-- SITUATIONAL: AGENT APPROACHES YOU -->
-    <section class="form-block">
-      <h2>Scenario: Agent Approaches You</h2>
-      <p>
-        An agent approaches you in public and starts asking questions about your neighborhood. How do you respond?
-      </p>
-      <label>
-        <input type="radio" name="agent_approach" value="ask_clarity_and_rights" required>
-        Ask what this is about, what your rights are, and answer carefully.
-      </label>
-      <label>
-        <input type="radio" name="agent_approach" value="limited_neutral_answers">
-        Give short, neutral answers without volunteering extra information.
-      </label>
-      <label>
-        <input type="radio" name="agent_approach" value="overshare">
-        Talk a lot, hoping friendliness makes it safer.
-      </label>
-      <label>
-        <input type="radio" name="agent_approach" value="shut_down">
-        Say almost nothing and try to end the interaction quickly.
-      </label>
-    </section>
+    <!-- SKILL SUBCATEGORIES -->
+    <h2>Specific Skills</h2>
+    <label><input type="checkbox" name="skills" value="first_aid"> First Aid</label>
+    <label><input type="checkbox" name="skills" value="computer"> Computer Skills</label>
+    <label><input type="checkbox" name="skills" value="radio"> Radio / Comms</label>
+    <label><input type="checkbox" name="skills" value="writing"> Writing / Documentation</label>
+    <label><input type="checkbox" name="skills" value="design"> Design / Media</label>
+    <label><input type="checkbox" name="skills" value="logistics"> Logistics / Planning</label>
 
-    <!-- SITUATIONAL: CROWD FORCE -->
-    <section class="form-block">
-      <h2>Scenario: Crowd and Force</h2>
-      <p>
-        You’re in a crowd when force is used nearby (tear gas, batons, or aggressive arrests). What do you do?
-      </p>
-      <label>
-        <input type="radio" name="crowd_force" value="help_people_exit" required>
-        Help people exit safely—guiding, calming, and watching for danger.
-      </label>
-      <label>
-        <input type="radio" name="crowd_force" value="document_from_safety">
-        Move to a safer spot and document what’s happening.
-      </label>
-      <label>
-        <input type="radio" name="crowd_force" value="medical_support">
-        Look for injured people and try to help them.
-      </label>
-      <label>
-        <input type="radio" name="crowd_force" value="confront_agents">
-        Move toward the front and confront the agents.
-      </label>
-    </section>
+    <!-- SCENARIO QUESTIONS -->
+    <h2>Scenario Responses</h2>
+    <label><input type="radio" name="agent_door" value="boundary"> Ask questions, set boundaries</label>
+    <label><input type="radio" name="agent_door" value="document"> Document quietly</label>
+    <label><input type="radio" name="agent_door" value="comply"> Comply quickly</label>
 
-    <!-- PRESSURE STYLE -->
-    <section class="form-block">
-      <h2>How You Operate Under Pressure</h2>
-      <p>When things get intense, which description fits you best?</p>
-      <label>
-        <input type="radio" name="pressure_style" value="calm_planner" required>
-        Calm planner – I start organizing steps and options.
-      </label>
-      <label>
-        <input type="radio" name="pressure_style" value="protector">
-        Protector – I focus on people’s safety and wellbeing.
-      </label>
-      <label>
-        <input type="radio" name="pressure_style" value="messenger">
-        Messenger – I move information between people and keep everyone updated.
-      </label>
-      <label>
-        <input type="radio" name="pressure_style" value="witness">
-        Witness – I observe, remember, and document what’s happening.
-      </label>
-      <label>
-        <input type="radio" name="pressure_style" value="withdraw">
-        Withdraw – I pull back, watch, and process from a distance.
-      </label>
-    </section>
+    <label><input type="radio" name="crowd_force" value="guide"> Guide people to safety</label>
+    <label><input type="radio" name="crowd_force" value="record"> Record from a safe distance</label>
+    <label><input type="radio" name="crowd_force" value="aid"> Provide first aid</label>
 
-    <!-- CONTRIBUTION -->
-    <section class="form-block">
-      <h2>How You Prefer to Contribute</h2>
-      <p>In a real situation, how would you rather plug in?</p>
-      <label>
-        <input type="checkbox" name="contribution" value="frontline_support">
-        Frontline support – being physically present, helping on the ground.
-      </label>
-      <label>
-        <input type="checkbox" name="contribution" value="remote_support">
-        Remote support – calls, messages, coordination from home.
-      </label>
-      <label>
-        <input type="checkbox" name="contribution" value="education">
-        Education – explaining, teaching, or breaking things down for others.
-      </label>
-      <label>
-        <input type="checkbox" name="contribution" value="logistics_backend">
-        Logistics / backend – planning, supplies, and behind‑the‑scenes work.
-      </label>
-      <label>
-        <input type="checkbox" name="contribution" value="creative_narrative">
-        Creative / narrative – visuals, stories, media, or design.
-      </label>
-    </section>
-
-    <section class="form-block">
-      <button type="submit" class="menu-btn">See My Role</button>
-      <p class="small-note">
-        After you submit, you’ll see your role, category, and how it connects to real historical roles.
-      </p>
-    </section>
+    <!-- SUBMIT -->
+    <button type="submit" class="menu-btn">Calculate My Role</button>
 
   </form>
-
-  <section class="role-links-footer">
-    <h2>Want to Study the Roles First?</h2>
-    <p>
-      You can explore the full role list and history before or after you take the assessment.
-    </p>
-    <p>
-      <a href="role_list.html">All 15 Roles</a> ·
-      <a href="history.html">History & Documentation</a> ·
-      <a href="glossary.html">Glossary</a>
-    </p>
-  </section>
 
   <a href="index.html" class="menu-btn">Back to Home</a>
 
 </main>
 
+<!-- JS -->
 <script src="storage_manager.js"></script>
-<script src="role_engine.js"></script>
-<script src="role_finder.js"></script>
+<script src="assessment_state.js"></script>
+<script src="dashboard.js"></script>
+<script src="role_finder_logic.js"></script>
 
 </body>
 </html>
