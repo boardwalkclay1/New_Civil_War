@@ -1,280 +1,331 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Find Your Role – Advanced Assessment</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+/* role_finder_logic.js */
+/* Advanced logic shell for the Find Your Role page */
 
-  <!-- MATRIX THEME -->
-  <link id="themeStylesheet" rel="stylesheet" href="theme_space.css">
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("roleFinderForm");
+  if (!form) return;
 
-  <style>
-    .step-indicator {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
+  // Step/page handling is already wired in the HTML inline script,
+  // but we still track completion here.
+  initRoleFinderState();
+  updateModuleStatus();
+  wireAnswerTracking(form);
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const state = AssessmentState.load();
+
+    // Mark page 4 as complete when they submit
+    state.roleFinder.page4 = true;
+    state.roleFinder.attempts = (state.roleFinder.attempts || 0) + 1;
+    state.attempts = (state.attempts || 0) + 1;
+    AssessmentState.save(state);
+
+    // Check modules + pages
+    if (!modulesComplete() || !pagesComplete()) {
+      alert("You must complete all 4 pages and all required tests (Math, Science, Reading) before your role can be calculated.");
+      updateModuleStatus();
+      return;
     }
-    .step-indicator span {
-      padding: 6px 10px;
-      border: 1px solid #00aaff;
-      border-radius: 4px;
-      font-size: 0.9rem;
+
+    // Gather all answers
+    const answers = collectAnswers(form);
+
+    // Update lie flags based on consistency
+    applyLieDetection(answers);
+
+    // Re‑load state after lie detection
+    const updatedState = AssessmentState.load();
+
+    // Calculate role (placeholder engine for now)
+    const roleResult = calculateAdvancedRole(answers, updatedState);
+
+    // Save role assignment
+    Storage.save("roleAssignment", roleResult);
+
+    // Mark role attempt in AssessmentState
+    updatedState.roleFinder.lastResult = roleResult;
+    AssessmentState.save(updatedState);
+
+    // Reveal result section
+    showRoleResult(roleResult);
+  });
+});
+
+/* -----------------------------------------
+   INITIALIZE ROLE FINDER STATE
+----------------------------------------- */
+function initRoleFinderState() {
+  const state = AssessmentState.load();
+  if (!state.roleFinder) {
+    state.roleFinder = {
+      attempts: 0,
+      page1: false,
+      page2: false,
+      page3: false,
+      page4: false,
+      lastResult: null
+    };
+  } else {
+    // Ensure flags exist
+    state.roleFinder.page1 = !!state.roleFinder.page1;
+    state.roleFinder.page2 = !!state.roleFinder.page2;
+    state.roleFinder.page3 = !!state.roleFinder.page3;
+    state.roleFinder.page4 = !!state.roleFinder.page4;
+  }
+
+  // Ensure global fields exist
+  state.attempts = state.attempts || 0;
+  state.lieFlags = state.lieFlags || 0;
+  state.answerChangeFlags = state.answerChangeFlags || 0;
+
+  // Ensure module objects exist
+  state.math = state.math || { attempts: 0, bestScore: null };
+  state.science = state.science || { attempts: 0, bestScore: null };
+  state.reading = state.reading || { attempts: 0, bestScore: null };
+
+  AssessmentState.save(state);
+}
+
+/* -----------------------------------------
+   MODULE COMPLETION CHECK
+----------------------------------------- */
+function modulesComplete() {
+  const s = AssessmentState.load();
+  return (
+    s.math && s.math.bestScore !== null &&
+    s.science && s.science.bestScore !== null &&
+    s.reading && s.reading.bestScore !== null // reading test will fill this later
+  );
+}
+
+/* -----------------------------------------
+   PAGE COMPLETION CHECK
+----------------------------------------- */
+function pagesComplete() {
+  const s = AssessmentState.load();
+  return (
+    s.roleFinder &&
+    s.roleFinder.page1 &&
+    s.roleFinder.page2 &&
+    s.roleFinder.page3 &&
+    s.roleFinder.page4
+  );
+}
+
+/* -----------------------------------------
+   UPDATE MODULE + PAGE STATUS TEXT
+----------------------------------------- */
+function updateModuleStatus() {
+  const el = document.getElementById("moduleStatus");
+  if (!el) return;
+
+  const s = AssessmentState.load();
+
+  const mathDone = s.math.bestScore !== null ? "✔" : " ";
+  const sciDone = s.science.bestScore !== null ? "✔" : " ";
+  const readDone = s.reading.bestScore !== null ? "✔" : " ";
+
+  const p1 = s.roleFinder.page1 ? "✔" : " ";
+  const p2 = s.roleFinder.page2 ? "✔" : " ";
+  const p3 = s.roleFinder.page3 ? "✔" : " ";
+  const p4 = s.roleFinder.page4 ? "✔" : " ";
+
+  el.textContent =
+    `Modules completed: Math [${mathDone}], Science [${sciDone}], Reading [${readDone}] • ` +
+    `Pages: 1 [${p1}], 2 [${p2}], 3 [${p3}], 4 [${p4}]`;
+}
+
+/* -----------------------------------------
+   ANSWER TRACKING (for page flags + change flags)
+----------------------------------------- */
+let previousAnswers = {};
+
+function wireAnswerTracking(form) {
+  const state = AssessmentState.load();
+
+  // Mark page completion when they leave each page via Next
+  const next1 = document.getElementById("nextStep1");
+  const next2 = document.getElementById("nextStep2");
+  const next3 = document.getElementById("nextStep3");
+
+  if (next1) {
+    next1.addEventListener("click", () => {
+      const s = AssessmentState.load();
+      s.roleFinder.page1 = true;
+      AssessmentState.save(s);
+      updateModuleStatus();
+    });
+  }
+  if (next2) {
+    next2.addEventListener("click", () => {
+      const s = AssessmentState.load();
+      s.roleFinder.page2 = true;
+      AssessmentState.save(s);
+      updateModuleStatus();
+    });
+  }
+  if (next3) {
+    next3.addEventListener("click", () => {
+      const s = AssessmentState.load();
+      s.roleFinder.page3 = true;
+      AssessmentState.save(s);
+      updateModuleStatus();
+    });
+  }
+
+  // Track answer changes for key fields
+  form.addEventListener("change", (e) => {
+    const target = e.target;
+    if (!target.name) return;
+
+    const keyNames = [
+      "pressure_style",
+      "pressure_style_check",
+      "ethics",
+      "agent_door",
+      "crowd_force",
+      "group_role"
+    ];
+
+    if (!keyNames.includes(target.name)) return;
+
+    const state = AssessmentState.load();
+    const prev = previousAnswers[target.name];
+
+    if (prev !== undefined && prev !== target.value) {
+      state.answerChangeFlags = (state.answerChangeFlags || 0) + 1;
+      AssessmentState.save(state);
     }
-    .step-indicator .active {
-      background: rgba(0, 40, 70, 0.9);
-      box-shadow: 0 0 10px #00c8ff;
+
+    previousAnswers[target.name] = target.value;
+  });
+}
+
+/* -----------------------------------------
+   COLLECT ALL ANSWERS FROM FORM
+----------------------------------------- */
+function collectAnswers(form) {
+  const data = new FormData(form);
+
+  function getAll(name) {
+    return data.getAll(name);
+  }
+  function getOne(name) {
+    return data.get(name) || null;
+  }
+
+  return {
+    interests: getAll("interests"),
+    exercise: getOne("exercise"),
+    endurance: getOne("endurance"),
+
+    pressure_style: getOne("pressure_style"),
+    pressure_style_check: getOne("pressure_style_check"),
+    ethics: getOne("ethics"),
+    risk: getOne("risk"),
+    decision_speed: getOne("decision_speed"),
+
+    skills: getAll("skills"),
+    tech_comfort: getOne("tech_comfort"),
+    tools: getAll("tools"),
+
+    agent_door: getOne("agent_door"),
+    crowd_force: getOne("crowd_force"),
+    group_role: getOne("group_role")
+  };
+}
+
+/* -----------------------------------------
+   LIE DETECTION / CONSISTENCY CHECK
+----------------------------------------- */
+function applyLieDetection(answers) {
+  const state = AssessmentState.load();
+  let flags = 0;
+
+  // Pressure style vs check
+  if (answers.pressure_style && answers.pressure_style_check) {
+    if (answers.pressure_style !== answers.pressure_style_check) {
+      flags++;
     }
-    .rf-step { display: none; }
-    .rf-step.active { display: block; }
-    .rf-nav {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
+  }
+
+  // Example: high risk + slow decision speed is a mild inconsistency
+  if (answers.risk === "high" && answers.decision_speed === "slow") {
+    flags++;
+  }
+
+  // Example: says "help_others" but chooses "comply" in agent_door and "record" in crowd_force
+  if (answers.pressure_style === "help_others") {
+    if (answers.agent_door === "comply" && answers.crowd_force === "record") {
+      flags++;
     }
-    .rf-status {
-      margin-top: 10px;
-      font-size: 0.9rem;
-      color: #6fbfff;
-    }
-    .section-subtitle {
-      margin-top: 10px;
-      font-size: 1rem;
-      color: #8fd3ff;
-      text-shadow: 0 0 6px #00c8ff;
-    }
-    .matrix-note {
-      font-size: 0.9rem;
-      opacity: 0.8;
-      margin-top: 6px;
-    }
-  </style>
-</head>
+  }
 
-<body>
+  state.lieFlags = (state.lieFlags || 0) + flags;
+  AssessmentState.save(state);
+}
 
-<!-- DASHBOARD ICON -->
-<div id="dashboardIcon" class="dashboard-icon matrix-pulse">◎</div>
+/* -----------------------------------------
+   ROLE ENGINE (PLACEHOLDER – YOU’LL DEEPEN THIS)
+----------------------------------------- */
+function calculateAdvancedRole(answers, state) {
+  // This is a simple placeholder to give you a working pipeline.
+  // You will later replace this with a deeper algorithm that uses:
+  // - state.math.bestScore, state.science.bestScore, state.reading.bestScore
+  // - answers.interests, answers.skills, answers.scenarios, etc.
+  // - state.lieFlags, state.answerChangeFlags
 
-<!-- DASHBOARD PANEL -->
-<div id="dashboardPanel" class="dashboard-panel">
-  <h2>Assessment Dashboard</h2>
-  <p id="dashAttempts"></p>
-  <p id="dashLieFlags"></p>
-  <p id="dashChangeFlags"></p>
-  <p id="dashMath"></p>
-  <p id="dashReading"></p>
-  <p id="dashScience"></p>
-  <p id="dashRole"></p>
-</div>
+  let roleNumber = 1;      // default
+  let subcategoryCode = "A";
 
-<header>
-  <h1>Find Your Role</h1>
-  <p class="subtitle">
-    This is the advanced assessment. It combines your tests, your choices, your behavior, and your skills into a single Role ID.
-  </p>
-</header>
+  // Example: strong mapping/nav interest -> navigation roles
+  if (answers.interests.includes("mapping") || answers.skills.includes("navigation")) {
+    roleNumber = 9; // e.g., Navigator/Scout
+  }
 
-<main id="app-content">
+  // Example: strong writing/history -> documentation roles
+  if (answers.interests.includes("history") || answers.skills.includes("writing")) {
+    roleNumber = 10; // e.g., Chronicler
+  }
 
-  <!-- SYSTEM EXPLANATION -->
-  <section class="matrix-panel">
-    <h2>How This System Works</h2>
-    <p>
-      This is not a personality quiz. This is a multi‑module civic assessment that determines your
-      <strong>Role Number</strong> and <strong>Subcategory Letter</strong>.
-    </p>
+  // Example: strong first aid -> care roles
+  if (answers.skills.includes("first_aid")) {
+    roleNumber = 14; // e.g., Care / Mutual Aid
+  }
 
-    <p class="section-subtitle">What the system analyzes:</p>
-    <ul>
-      <li><strong>Math, Science, and Reading tests</strong> – your baseline cognitive skills.</li>
-      <li><strong>Interests and physical activity</strong> – where you naturally lean.</li>
-      <li><strong>Scenario responses</strong> – how you act under pressure.</li>
-      <li><strong>Specific skills</strong> – first aid, tech, logistics, media, etc.</li>
-      <li><strong>Consistency checks</strong> – detects lies and answer shifts.</li>
-      <li><strong>Behavioral patterns</strong> – how you operate in groups.</li>
-    </ul>
+  // Example: tech + analysis -> information roles
+  if (answers.interests.includes("tech") && answers.interests.includes("analysis")) {
+    roleNumber = 1; // e.g., Signal / Info Flow
+  }
 
-    <p class="section-subtitle">What you receive:</p>
-    <p>
-      A <strong>Role ID</strong> like <code>1A</code> or <code>7C</code>.
-    </p>
+  // Subcategory based on skills
+  if (answers.skills.includes("computer")) subcategoryCode = "B";
+  if (answers.skills.includes("radio")) subcategoryCode = "C";
+  if (answers.skills.includes("design")) subcategoryCode = "D";
+  if (answers.skills.includes("logistics")) subcategoryCode = "E";
 
-    <ul>
-      <li><strong>Number (1–15)</strong> – your core civic role.</li>
-      <li><strong>Letter (A–E)</strong> – your subcategory inside that role.</li>
-    </ul>
+  return {
+    roleNumber,
+    subcategoryCode,
+    roleId: `${roleNumber}${subcategoryCode}`
+  };
+}
 
-    <p class="section-subtitle">Why this matters:</p>
-    <p>
-      In the future, communities will connect through these IDs. A neighborhood might say:
-      “We need a <code>4B</code> and a <code>10A</code> today.”  
-      Your ID becomes a way to plug into real networks of support and coordination.
-    </p>
+/* -----------------------------------------
+   SHOW ROLE RESULT ON PAGE
+----------------------------------------- */
+function showRoleResult(roleResult) {
+  const section = document.getElementById("roleResultSection");
+  const text = document.getElementById("roleResultText");
+  if (!section || !text) return;
 
-    <p class="rf-status" id="moduleStatus">
-      Modules completed: Math [ ], Science [ ], Reading [ ] • Pages: 1 [ ], 2 [ ], 3 [ ], 4 [ ]
-    </p>
-  </section>
+  text.textContent =
+    `Your current Role ID is ${roleResult.roleId}. ` +
+    `Number ${roleResult.roleNumber} is your core role. ` +
+    `Letter ${roleResult.subcategoryCode} is your subcategory inside that role. ` +
+    `You can view more details on your Profile and in the Subcategories page.`;
 
-  <!-- REQUIRED MODULES -->
-  <section class="matrix-panel">
-    <h2>Required Skill Modules</h2>
-    <p>These tests must be completed before your role can be calculated.</p>
-
-    <a href="tests_home.html" class="menu-btn small">Go to Test Center</a>
-    <a href="test_math_arithmetic.html" class="menu-btn small">Math Test</a>
-    <a href="test_science_combined.html" class="menu-btn small">Science Test</a>
-    <a href="#" class="menu-btn small disabled">Reading Test (Coming Soon)</a>
-
-    <p class="matrix-note">
-      Your scores are saved automatically. You cannot receive a role until all tests and all pages are complete.
-    </p>
-  </section>
-
-  <!-- STEP INDICATOR -->
-  <div class="step-indicator">
-    <span id="stepDot1" class="active">Page 1</span>
-    <span id="stepDot2">Page 2</span>
-    <span id="stepDot3">Page 3</span>
-    <span id="stepDot4">Page 4</span>
-  </div>
-
-  <!-- MULTI‑PAGE ROLE FINDER -->
-  <form id="roleFinderForm">
-
-    <!-- PAGE 1 -->
-    <section id="rfStep1" class="matrix-panel rf-step active">
-      <h2>Page 1 – Interests & Physical Activity</h2>
-
-      <h3>Interests</h3>
-      <p>Select everything that genuinely applies to you.</p>
-
-      <label><input type="checkbox" name="interests" value="history"> History & Documentation</label>
-      <label><input type="checkbox" name="interests" value="fitness"> Fitness & Physical Readiness</label>
-      <label><input type="checkbox" name="interests" value="mapping"> Mapping & Navigation</label>
-      <label><input type="checkbox" name="interests" value="media"> Media & Design</label>
-      <label><input type="checkbox" name="interests" value="community"> Community Support</label>
-      <label><input type="checkbox" name="interests" value="analysis"> Analysis & Strategy</label>
-      <label><input type="checkbox" name="interests" value="tech"> Technology & Systems</label>
-      <label><input type="checkbox" name="interests" value="leadership"> Leadership & Coordination</label>
-      <label><input type="checkbox" name="interests" value="problem_solving"> Problem Solving</label>
-      <label><input type="checkbox" name="interests" value="writing"> Writing & Communication</label>
-      <label><input type="checkbox" name="interests" value="first_aid"> First Aid & Care</label>
-
-      <h3>Physical Activity</h3>
-      <p>On an average week, which describes you best?</p>
-
-      <label><input type="radio" name="exercise" value="heavy"> Heavy – sports, lifting, running, intense work</label>
-      <label><input type="radio" name="exercise" value="moderate"> Moderate – walking, light workouts</label>
-      <label><input type="radio" name="exercise" value="low"> Low – mostly seated</label>
-
-      <h3>Energy & Endurance</h3>
-      <label><input type="radio" name="endurance" value="high"> High – I can stay active for long periods</label>
-      <label><input type="radio" name="endurance" value="medium"> Medium – I can push myself when needed</label>
-      <label><input type="radio" name="endurance" value="low"> Low – I prefer shorter tasks</label>
-
-      <div class="rf-nav">
-        <span></span>
-        <button type="button" id="nextStep1" class="menu-btn small">Next</button>
-      </div>
-    </section>
-
-    <!-- PAGE 2 -->
-    <section id="rfStep2" class="matrix-panel rf-step">
-      <h2>Page 2 – Pressure, Consistency, Ethics</h2>
-
-      <h3>Under Pressure</h3>
-      <label><input type="radio" name="pressure_style" value="calm_plan"> I stay calm and plan.</label>
-      <label><input type="radio" name="pressure_style" value="move_fast"> I move fast.</label>
-      <label><input type="radio" name="pressure_style" value="help_others"> I help others.</label>
-      <label><input type="radio" name="pressure_style" value="document"> I document.</label>
-
-      <h3>Consistency Check</h3>
-      <label><input type="radio" name="pressure_style_check" value="calm_plan"> I think before acting.</label>
-      <label><input type="radio" name="pressure_style_check" value="move_fast"> I act before thinking.</label>
-      <label><input type="radio" name="pressure_style_check" value="help_others"> I help first.</label>
-      <label><input type="radio" name="pressure_style_check" value="document"> I capture details.</label>
-
-      <h3>Ethics</h3>
-      <label><input type="radio" name="ethics" value="protect_people"> Protect people</label>
-      <label><input type="radio" name="ethics" value="protect_truth"> Protect truth</label>
-      <label><input type="radio" name="ethics" value="protect_self"> Protect self</label>
-      <label><input type="radio" name="ethics" value="protect_order"> Protect order</label>
-
-      <h3>Risk Tolerance</h3>
-      <label><input type="radio" name="risk" value="high"> High – I take risks when needed</label>
-      <label><input type="radio" name="risk" value="medium"> Medium – I balance risk and caution</label>
-      <label><input type="radio" name="risk" value="low"> Low – I avoid unnecessary risks</label>
-
-      <h3>Decision Speed</h3>
-      <label><input type="radio" name="decision_speed" value="fast"> Fast – I decide quickly</label>
-      <label><input type="radio" name="decision_speed" value="balanced"> Balanced – I think then act</label>
-      <label><input type="radio" name="decision_speed" value="slow"> Slow – I prefer to analyze deeply</label>
-
-      <div class="rf-nav">
-        <button type="button" id="prevStep2" class="menu-btn small">Back</button>
-        <button type="button" id="nextStep2" class="menu-btn small">Next</button>
-      </div>
-    </section>
-
-    <!-- PAGE 3 -->
-    <section id="rfStep3" class="matrix-panel rf-step">
-      <h2>Page 3 – Skills, Tools, Tech</h2>
-
-      <h3>Skills</h3>
-      <label><input type="checkbox" name="skills" value="first_aid"> First Aid</label>
-      <label><input type="checkbox" name="skills" value="computer"> Computer Skills</label>
-      <label><input type="checkbox" name="skills" value="radio"> Radio / Comms</label>
-      <label><input type="checkbox" name="skills" value="writing"> Writing / Documentation</label>
-      <label><input type="checkbox" name="skills" value="design"> Design / Media</label>
-      <label><input type="checkbox" name="skills" value="logistics"> Logistics / Planning</label>
-      <label><input type="checkbox" name="skills" value="teaching"> Teaching / Training</label>
-      <label><input type="checkbox" name="skills" value="mechanical"> Mechanical / Tools</label>
-      <label><input type="checkbox" name="skills" value="navigation"> Navigation / Mapping</label>
-      <label><input type="checkbox" name="skills" value="analysis"> Analysis / Strategy</label>
-
-      <h3>Tech Comfort</h3>
-      <label><input type="radio" name="tech_comfort" value="high"> High</label>
-      <label><input type="radio" name="tech_comfort" value="medium"> Medium</label>
-      <label><input type="radio" name="tech_comfort" value="low"> Low</label>
-
-      <h3>Tool Familiarity</h3>
-      <label><input type="checkbox" name="tools" value="gps"> GPS / Mapping Apps</label>
-      <label><input type="checkbox" name="tools" value="camera"> Camera / Recording Tools</label>
-      <label><input type="checkbox" name="tools" value="first_aid_kit"> First Aid Kit</label>
-      <label><input type="checkbox" name="tools" value="radio_tools"> Radios / Scanners</label>
-      <label><input type="checkbox" name="tools" value="software"> Software Tools</label>
-
-      <div class="rf-nav">
-        <button type="button" id="prevStep3" class="menu-btn small">Back</button>
-        <button type="button" id="nextStep3" class="menu-btn small">Next</button>
-      </div>
-    </section>
-
-    <!-- PAGE 4 -->
-    <section id="rfStep4" class="matrix-panel rf-step">
-      <h2>Page 4 – Scenarios & Group Behavior</h2>
-
-      <h3>Agents at the Door</h3>
-      <label><input type="radio" name="agent_door" value="boundary"> Set boundaries</label>
-      <label><input type="radio" name="agent_door" value="document"> Document</label>
-      <label><input type="radio" name="agent_door" value="comply"> Comply</label>
-      <label><input type="radio" name="agent_door" value="call_support"> Call support</label>
-
-      <h3>Crowd & Force</h3>
-      <label><input type="radio" name="crowd_force" value="guide"> Guide people</label>
-      <label><input type="radio" name="crowd_force" value="record"> Record</label>
-      <label><input type="radio" name="crowd_force" value="aid"> Provide aid</label>
-      <label><input type="radio" name="crowd_force" value="signal"> Relay signals</label>
-
-      <h3>Group Behavior</h3>
-      <label><input type="radio" name="group_role" value="organizer"> Organizer</label>
-      <label><input type="radio" name="group_role" value="support"> Support</label>
-      <label><input type="radio" name="group_role" value="scout"> Scout</label>
-      <label><input type="radio" name="group_role" value="recorder"> Recorder</label>
-
-      <h3>Role ID System</h3>
-      <p>
-        Once all four pages and all tests are complete, the system will assign you a
-        <strong>Role ID</strong> like <code>
+  section.style.display = "block";
+}
