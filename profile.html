@@ -2,50 +2,178 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Your Profile</title>
+  <title>Your Profile – The New Civil War</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Manifest + Theme -->
+  <link rel="manifest" href="manifest.json">
   <link id="themeStylesheet" rel="stylesheet" href="theme_default.css">
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
 </head>
 
 <body>
 
-  <header>
-    <h1>Your Profile</h1>
-    <p>All data stored locally on your device.</p>
-  </header>
+<header>
+  <h1>Your Profile</h1>
+  <p class="subtitle">
+    Your role, number, history, and decisions—stored locally, fully under your control.
+  </p>
+</header>
 
-  <main>
+<main>
 
-    <section id="roleSection">
-      <h2>Your Role</h2>
-      <p><strong>Name:</strong> <span id="profileRoleName">—</span></p>
-      <p><strong>Number:</strong> <span id="profileRoleNumber">—</span></p>
-      <p><strong>Category:</strong> <span id="profileRoleCategory">—</span></p>
-    </section>
+  <!-- ROLE SUMMARY -->
+  <section id="roleSection" class="card">
+    <h2>Your Role Summary</h2>
+    <p><strong>Name:</strong> <span id="profileRoleName">—</span></p>
+    <p><strong>Role Number:</strong> <span id="profileRoleNumber">—</span></p>
+    <p><strong>Category:</strong> <span id="profileRoleCategory">—</span></p>
+    <p><strong>Description:</strong></p>
+    <p id="profileRoleDescription">—</p>
 
-    <section id="fitnessSection">
-      <h2>1‑Mile Run Stats</h2>
-      <p><strong>Best Time:</strong> <span id="profileBestTime">—</span></p>
-      <p><strong>Last Run:</strong> <span id="profileLastRun">—</span></p>
-      <a href="run_tracker.html" class="menu-btn">Run Again</a>
-    </section>
+    <p class="small-link">
+      <a href="role_result.html">View full role breakdown</a> ·
+      <a href="role_list.html">See all 15 roles</a> ·
+      <a href="categories.html">View categories</a> ·
+      <a href="glossary.html#role-number">What is a Role Number?</a>
+    </p>
+  </section>
 
-    <section id="badgeSection">
-      <h2>Badges Earned</h2>
-      <div id="badgeList">
-        <!-- Badges will be injected here by JS -->
+  <!-- CORE ATTRIBUTES (EDITABLE NOTES) -->
+  <section id="attributesSection" class="card">
+    <h2>Your Skills & Interests</h2>
+
+    <div class="pill-row">
+      <div>
+        <h3>Skills (from assessment)</h3>
+        <ul id="profileSkills" class="pill-list">
+          <!-- filled by JS -->
+        </ul>
       </div>
-    </section>
+      <div>
+        <h3>Interests (from assessment)</h3>
+        <ul id="profileInterests" class="pill-list">
+          <!-- filled by JS -->
+        </ul>
+      </div>
+    </div>
 
-    <section id="themeSection">
-      <h2>Theme</h2>
+    <h3>Your Own Notes</h3>
+    <p class="hint">Add or refine how you see your own strengths. This stays on your device.</p>
+    <textarea id="profileCustomNotes" rows="4" placeholder="How do you actually show up in real situations?"></textarea>
+    <button id="saveProfileNotesBtn" class="menu-btn">Save Notes</button>
+  </section>
+
+  <!-- SITUATIONAL RESPONSES -->
+  <section id="situationalSection" class="card">
+    <h2>Situational Responses</h2>
+    <p class="hint">
+      These come from your advanced assessment and help define how you operate under pressure.
+    </p>
+
+    <div class="situational-grid">
+      <div>
+        <h3>Agent at Your Door</h3>
+        <p id="profileAgentDoor">—</p>
+      </div>
+      <div>
+        <h3>Witnessing an Arrest</h3>
+        <p id="profileAgentArrest">—</p>
+      </div>
+      <div>
+        <h3>Agent Approaches You</h3>
+        <p id="profileAgentApproach">—</p>
+      </div>
+      <div>
+        <h3>Escalated Force in a Crowd</h3>
+        <p id="profileCrowdForce">—</p>
+      </div>
+    </div>
+
+    <h3>Pressure Style</h3>
+    <p id="profilePressureStyle">—</p>
+
+    <h3>Preferred Contribution</h3>
+    <ul id="profileContribution" class="pill-list">
+      <!-- filled by JS -->
+    </ul>
+
+    <p class="small-link">
+      <a href="glossary.html#category">Read about categories</a> ·
+      <a href="glossary.html#badge">Badges</a> ·
+      <a href="glossary.html#run-tracker">Run Tracker</a>
+    </p>
+  </section>
+
+  <!-- FITNESS / RUN HISTORY -->
+  <section id="fitnessSection" class="card">
+    <h2>1‑Mile Run Stats</h2>
+    <p><strong>Best Time:</strong> <span id="profileBestTime">—</span></p>
+    <p><strong>Last Run:</strong> <span id="profileLastRun">—</span></p>
+    <p><a href="run_history.html">View full run history</a></p>
+    <a href="run_tracker.html" class="menu-btn">Run Again</a>
+  </section>
+
+  <!-- BADGES -->
+  <section id="badgeSection" class="card">
+    <h2>Badges Earned</h2>
+    <div id="badgeList">
+      <!-- Badges injected by JS -->
+    </div>
+    <p class="small-link">
+      <a href="tests_home.html">Take more trials</a> ·
+      <a href="glossary.html#badge">What do badges mean?</a>
+    </p>
+  </section>
+
+  <!-- ROLE TIPS / GUIDANCE -->
+  <section id="roleTipsSection" class="card">
+    <h2>Role Tips & Guidance</h2>
+    <p class="hint">
+      These tips are generated from your role, number, and how you answered situational questions.
+    </p>
+    <ul id="roleTipsList">
+      <!-- JS will generate tailored tips like:
+           “As a #1 Signal Runner, focus on clear, calm communication when others are overwhelmed.” -->
+    </ul>
+  </section>
+
+  <!-- THEME + NAVIGATION HUB -->
+  <section id="themeSection" class="card">
+    <h2>Theme & Navigation</h2>
+
+    <div class="theme-buttons">
       <button data-theme="theme_default.css">Civil War Parchment</button>
       <button data-theme="theme_space.css">Black & White Space Glow</button>
-    </section>
+    </div>
 
-    <a href="index.html" class="menu-btn">Back to Home</a>
+    <h3>Explore the App</h3>
+    <nav class="profile-nav">
+      <a href="index.html" class="menu-btn">Home</a>
+      <a href="role_finder.html" class="menu-btn">Retake Role Assessment</a>
+      <a href="role_result.html" class="menu-btn">View Role Result</a>
+      <a href="role_list.html" class="menu-btn">All Roles</a>
+      <a href="categories.html" class="menu-btn">Role Categories</a>
+      <a href="glossary.html" class="menu-btn">Glossary</a>
+      <a href="history.html" class="menu-btn">History & Documentation</a>
+      <a href="tests_home.html" class="menu-btn">Math & Science Trials</a>
+      <a href="data_export.html" class="menu-btn">Export / Import Data</a>
+      <a href="settings.html" class="menu-btn">Settings</a>
+    </nav>
+  </section>
 
-  </main>
+</main>
+
+<!-- JS: core + profile loader (you’ll wire this in JS) -->
+<script src="storage_manager.js"></script>
+<script src="theme_manager.js"></script>
+<script src="app_bootstrap.js"></script>
+<script src="profile_loader.js"></script>
 
 </body>
 </html>
