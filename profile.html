@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link id="themeStylesheet" rel="stylesheet" href="theme_default.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>Your Profile</h1>
+    <p>All data stored locally on your device.</p>
+  </header>
+
+  <main>
+
+    <section id="roleSection">
+      <h2>Your Role</h2>
+      <p><strong>Name:</strong> <span id="profileRoleName">—</span></p>
+      <p><strong>Number:</strong> <span id="profileRoleNumber">—</span></p>
+      <p><strong>Category:</strong> <span id="profileRoleCategory">—</span></p>
+    </section>
+
+    <section id="fitnessSection">
+      <h2>1‑Mile Run Stats</h2>
+      <p><strong>Best Time:</strong> <span id="profileBestTime">—</span></p>
+      <p><strong>Last Run:</strong> <span id="profileLastRun">—</span></p>
+      <a href="run_tracker.html" class="menu-btn">Run Again</a>
+    </section>
+
+    <section id="badgeSection">
+      <h2>Badges Earned</h2>
+      <div id="badgeList">
+        <!-- Badges will be injected here by JS -->
+      </div>
+    </section>
+
+    <section id="themeSection">
+      <h2>Theme</h2>
+      <button data-theme="theme_default.css">Civil War Parchment</button>
+      <button data-theme="theme_space.css">Black & White Space Glow</button>
+    </section>
+
+    <a href="index.html" class="menu-btn">Back to Home</a>
+
+  </main>
+
+</body>
+</html>
