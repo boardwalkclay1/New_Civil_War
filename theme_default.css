@@ -1,46 +1,113 @@
-/* GLOBAL PARCHMENT THEME */
+/* GLOBAL BLUE MATRIX TERMINAL THEME */
 
+/* BACKGROUND + GLOBAL TEXT */
 body {
   margin: 0;
   padding: 0;
-  font-family: "Georgia", serif;
-  background: #f2e6c9 url('images/parchment_texture.jpg');
-  background-size: cover;
-  color: #3a2f1b;
+  font-family: "Courier New", monospace;
+  background: #02040a;
+  color: #8fd3ff;
+  overflow-x: hidden;
 }
 
+/* HEADERS */
 h1, h2, h3 {
-  font-family: "Times New Roman", serif;
-  color: #2d2415;
-  text-shadow: 1px 1px 0 #e8d9b8;
+  font-family: "Courier New", monospace;
+  color: #8fd3ff;
+  text-shadow: 0 0 8px #00c8ff;
+  letter-spacing: 1px;
 }
 
+/* BASE TEXT */
 p, label, input, button {
   font-size: 1.1rem;
+  color: #8fd3ff;
 }
 
+/* TERMINAL BUTTONS */
 .menu-btn {
   display: block;
   width: 80%;
   margin: 12px auto;
   padding: 12px;
-  background: #d4b98a;
-  border: 2px solid #8b6a3e;
+  background: rgba(0, 20, 40, 0.85);
+  border: 2px solid #00aaff;
   border-radius: 6px;
   text-align: center;
-  color: #3a2f1b;
+  color: #8fd3ff;
   font-weight: bold;
   cursor: pointer;
+  box-shadow: 0 0 10px #007acc;
+  transition: 0.2s ease;
 }
 
 .menu-btn:hover {
-  background: #e6cfa5;
+  background: rgba(0, 40, 70, 0.9);
+  border-color: #00d4ff;
+  box-shadow: 0 0 14px #00d4ff;
 }
 
+/* TERMINAL SECTIONS */
 section {
   padding: 20px;
   margin: 20px;
-  background: rgba(255, 248, 230, 0.85);
-  border: 2px solid #b89a6a;
+  background: rgba(0, 20, 40, 0.85);
+  border: 2px solid #00aaff;
   border-radius: 8px;
+  box-shadow: 0 0 12px #0094ff;
+  animation: matrixPulse 5s infinite ease-in-out;
+}
+
+/* MATRIX PULSE ANIMATION */
+@keyframes matrixPulse {
+  0% { box-shadow: 0 0 6px #007acc; }
+  50% { box-shadow: 0 0 14px #00c8ff; }
+  100% { box-shadow: 0 0 6px #007acc; }
+}
+
+/* OPTIONAL: MATRIX RAIN BACKGROUND CANVAS */
+#matrix-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  background: #02040a;
+  pointer-events: none;
+}
+
+/* CONTENT ABOVE MATRIX RAIN */
+#app-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* BLUE MATRIX LOADING SCREEN */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: #02040a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  color: #00c8ff;
+  font-family: "Courier New", monospace;
+  font-size: 1.2rem;
+  animation: blueRainFlash 3s infinite linear;
+}
+
+/* BLUE RAIN FLASH EFFECT */
+@keyframes blueRainFlash {
+  0% { background: #02040a; }
+  50% { background: #03101f; }
+  100% { background: #02040a; }
+}
+
+/* FADE OUT LOADING SCREEN */
+#loading-screen.fade-out {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+  pointer-events: none;
 }
