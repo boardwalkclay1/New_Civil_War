@@ -2,65 +2,216 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Civil War History & Roles</title>
+  <title>Civil War History, Slavery & Modern Roles</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Manifest + Theme -->
+  <link rel="manifest" href="manifest.json">
   <link id="themeStylesheet" rel="stylesheet" href="theme_default.css">
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
 </head>
 
 <body>
 
-  <header>
-    <h1>History & Documentation</h1>
-    <p>Real historical roles and how they translate into modern civic power.</p>
-  </header>
+<header>
+  <h1>History & Documentation</h1>
+  <p class="subtitle">
+    From the U.S. Civil War through slavery, Jim Crow, and modern movements—real roles, real risks, real continuity.
+  </p>
+</header>
 
-  <main>
+<main class="history-layout">
 
-    <section class="history-block">
-      <h2>Signal & Communication Roles</h2>
+  <!-- SIDE INDEX / NAV -->
+  <aside class="history-sidebar">
+    <h2>Timeline Index</h2>
+    <nav>
+      <ul>
+        <li><a href="#cw-overview">Civil War Overview</a></li>
+        <li><a href="#cw-roles">Civil War Roles & Functions</a></li>
+        <li><a href="#slavery">Slavery & Resistance</a></li>
+        <li><a href="#reconstruction">Reconstruction & Backlash</a></li>
+        <li><a href="#jim-crow">Jim Crow & Segregation</a></li>
+        <li><a href="#civil-rights">Civil Rights Movements</a></li>
+        <li><a href="#modern-continuity">Modern Continuity & Your Role</a></li>
+      </ul>
+    </nav>
+
+    <h3>App Connections</h3>
+    <ul class="history-app-links">
+      <li><a href="role_list.html">All 15 Roles</a></li>
+      <li><a href="categories.html">Role Categories</a></li>
+      <li><a href="glossary.html">Global Glossary</a></li>
+      <li><a href="history_glossary.html">History Glossary (This Page)</a></li>
+      <li><a href="role_finder.html">Find Your Role</a></li>
+      <li><a href="profile.html">Your Profile</a></li>
+      <li><a href="tests_home.html">Math & Science Trials</a></li>
+      <li><a href="index.html">Home</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN HISTORY CONTENT (JS-DRIVEN) -->
+  <section id="historyContent">
+
+    <!-- CIVIL WAR OVERVIEW -->
+    <article id="cw-overview" class="history-block">
+      <h2>U.S. Civil War Overview</h2>
       <p class="history-text">
-        During the Civil War, signalers, telegraph operators, and couriers carried
-        messages across dangerous terrain. Their accuracy and speed shaped entire
-        campaigns.
+        This section will outline key dates, turning points, and the central conflict over slavery and power.
+        It will include a structured timeline, major battles, political decisions, and direct quotes from
+        speeches, letters, and newspapers.
       </p>
-      <h3>Modern Interpretation</h3>
+      <div class="history-meta">
+        <a href="history_glossary.html#civil-war">Civil War (Glossary)</a>
+      </div>
+      <div class="history-quotes" id="cwOverviewQuotes">
+        <!-- JS will inject real quotes with sources and dates -->
+      </div>
+    </article>
+
+    <!-- CIVIL WAR ROLES & FUNCTIONS -->
+    <article id="cw-roles" class="history-block">
+      <h2>Civil War Roles & Functions</h2>
       <p class="history-text">
-        Today this becomes the <strong>Signal Runner</strong>, <strong>Verifier</strong>,
-        and <strong>Coordinator</strong> — roles focused on information flow,
-        accuracy, and communication discipline.
+        Signalers, quartermasters, nurses, organizers, writers, and more—this section maps historical roles
+        directly to the modern civic roles in this app.
       </p>
+      <h3>Mapped to Modern Roles</h3>
+      <ul class="history-role-map">
+        <li><strong>Signalers, telegraph operators, couriers</strong> → Signal Runner, Verifier, Coordinator</li>
+        <li><strong>Quartermasters, supply officers</strong> → Quartermaster, Distributor, Mapper</li>
+        <li><strong>Correspondents, diarists, archivists</strong> → Chronicler, Historian</li>
+        <li><strong>Speakers, pamphleteers, editors</strong> → Broadcaster, Designer</li>
+        <li><strong>Mutual aid, informal support networks</strong> → Helper, Builder</li>
+      </ul>
+      <p class="history-text">
+        Each of these roles will be tied to real people, events, and quotes, with links you can follow to see
+        how your role number echoes specific historical functions.
+      </p>
+      <div class="history-meta">
+        <a href="role_list.html">See all 15 roles</a> ·
+        <a href="glossary.html#role-number">Role Number (Glossary)</a>
+      </div>
+      <div class="history-quotes" id="cwRolesStories">
+        <!-- JS: stories of specific individuals in these roles -->
+      </div>
+    </article>
+
+    <!-- SLAVERY & RESISTANCE -->
+    <article id="slavery" class="history-block">
+      <h2>Slavery, Resistance & Underground Networks</h2>
+      <p class="history-text">
+        This section will cover enslaved people’s resistance, escape networks, organizers, writers, and those
+        who risked everything to move information, people, and resources.
+      </p>
+      <p class="history-text">
+        We will highlight specific individuals, quotes from narratives, and the roles they played that mirror
+        modern categories like Information Flow, Supplies & Resource Management, and Mutual Aid & Support.
+      </p>
+      <div class="history-meta">
+        <a href="history_glossary.html#slavery">Slavery (History Glossary)</a> ·
+        <a href="history_glossary.html#underground-railroad">Underground Railroad</a>
+      </div>
+      <div class="history-quotes" id="slaveryStories">
+        <!-- JS: real quotes, dates, and short stories -->
+      </div>
+    </article>
+
+    <!-- RECONSTRUCTION -->
+    <article id="reconstruction" class="history-block">
+      <h2>Reconstruction & Backlash</h2>
+      <p class="history-text">
+        After the Civil War, Reconstruction briefly opened new possibilities before violent backlash and policy
+        reversals. This section will track organizers, educators, and local leaders who tried to build new systems.
+      </p>
+      <div class="history-meta">
+        <a href="history_glossary.html#reconstruction">Reconstruction</a>
+      </div>
+      <div class="history-quotes" id="reconstructionStories">
+        <!-- JS: events, quotes, and role parallels -->
+      </div>
+    </article>
+
+    <!-- JIM CROW -->
+    <article id="jim-crow" class="history-block">
+      <h2>Jim Crow, Segregation & Everyday Resistance</h2>
+      <p class="history-text">
+        Laws, customs, and violence enforced racial hierarchy, but people organized schools, mutual aid,
+        newspapers, churches, and legal challenges. This section will show how everyday roles became sites of resistance.
+      </p>
+      <div class="history-meta">
+        <a href="history_glossary.html#jim-crow">Jim Crow</a>
+      </div>
+      <div class="history-quotes" id="jimCrowStories">
+        <!-- JS: stories of organizers, teachers, lawyers, writers, and neighbors -->
+      </div>
+    </article>
+
+    <!-- CIVIL RIGHTS MOVEMENTS -->
+    <article id="civil-rights" class="history-block">
+      <h2>Civil Rights Movements & Organizing</h2>
+      <p class="history-text">
+        From mass marches to local boycotts, from legal strategies to media campaigns, this section will map
+        specific actions and people to the roles in this app—Signal Runners, Coordinators, Chroniclers, Broadcasters, and more.
+      </p>
+      <div class="history-meta">
+        <a href="history_glossary.html#civil-rights">Civil Rights Movements</a>
+      </div>
+      <div class="history-quotes" id="civilRightsStories">
+        <!-- JS: quotes, dates, and role-linked stories -->
+      </div>
+    </article>
+
+    <!-- MODERN CONTINUITY -->
+    <article id="modern-continuity" class="history-block">
+      <h2>Modern Continuity & Your Role</h2>
+      <p class="history-text">
+        This section ties everything back to you. Your role number, category, and situational responses connect
+        to a long line of people who carried messages, protected communities, documented truth, and built support systems.
+      </p>
+      <p class="history-text">
+        You’ll see examples of historical figures whose functions resemble your role, with links to your
+        <a href="profile.html">Profile</a> and <a href="role_result.html">Role Result</a>.
+      </p>
+      <div class="history-meta">
+        <a href="profile.html">Your Profile</a> ·
+        <a href="role_result.html">Your Role Result</a> ·
+        <a href="glossary.html#category">Categories (Glossary)</a>
+      </div>
+      <div class="history-quotes" id="modernContinuityLinks">
+        <!-- JS: dynamic connections between your role and historical examples -->
+      </div>
+    </article>
+
+    <section class="history-footer-links">
+      <h2>Explore More</h2>
+      <p>
+        Use this page as a living index. As we add more stories, quotes, and events, you’ll be able to jump
+        directly from a role, a quote, or a time period into the rest of the app.
+      </p>
+      <nav class="history-bottom-nav">
+        <a href="index.html" class="menu-btn">Home</a>
+        <a href="role_finder.html" class="menu-btn">Find Your Role</a>
+        <a href="profile.html" class="menu-btn">Your Profile</a>
+        <a href="glossary.html" class="menu-btn">Global Glossary</a>
+        <a href="history_glossary.html" class="menu-btn">History Glossary</a>
+      </nav>
     </section>
 
-    <section class="history-block">
-      <h2>Quartermasters & Supply Roles</h2>
-      <p class="history-text">
-        Quartermasters managed food, uniforms, tools, and transport. Without them,
-        nothing moved and nothing functioned.
-      </p>
-      <h3>Modern Interpretation</h3>
-      <p class="history-text">
-        This becomes the <strong>Quartermaster</strong>, <strong>Distributor</strong>,
-        and <strong>Mapper</strong> — the backbone of resource management and
-        community readiness.
-      </p>
-    </section>
+  </section>
 
-    <section class="history-block">
-      <h2>Writers, Correspondents & Documenters</h2>
-      <p class="history-text">
-        Letters, diaries, and battlefield reports preserved the truth of events and
-        shaped public understanding.
-      </p>
-      <h3>Modern Interpretation</h3>
-      <p class="history-text">
-        This becomes the <strong>Chronicler</strong> and <strong>Historian</strong> —
-        the keepers of narrative, memory, and civic identity.
-      </p>
-    </section>
+</main>
 
-    <a href="index.html" class="menu-btn">Back to Home</a>
-
-  </main>
+<!-- JS: core + history loader (data-driven) -->
+<script src="storage_manager.js"></script>
+<script src="theme_manager.js"></script>
+<script src="app_bootstrap.js"></script>
+<script src="history_loader.js"></script>
 
 </body>
 </html>
