@@ -1,30 +1,109 @@
-/* TEST UI */
+/* TEST UI – BLUE MATRIX TERMINAL MODE */
 
+/* GLOBAL TERMINAL BACKGROUND */
+body {
+  background: #02040a;
+  color: #8fd3ff;
+  font-family: "Courier New", monospace;
+}
+
+/* TEST CONTAINER */
 #testContainer {
-  background: rgba(255, 248, 230, 0.9);
-  border: 2px solid #b89a6a;
+  background: rgba(0, 20, 40, 0.85);
+  border: 2px solid #00aaff;
   border-radius: 8px;
   padding: 20px;
   margin: 20px auto;
   max-width: 600px;
+  box-shadow: 0 0 12px #0094ff;
+  animation: matrixPulse 5s infinite ease-in-out;
 }
 
+/* QUESTION TEXT */
 #questionText {
   font-size: 1.4rem;
   margin-bottom: 20px;
+  color: #8fd3ff;
+  text-shadow: 0 0 6px #00c8ff;
 }
 
+/* ANSWER INPUT FIELD */
 #answerInput {
   width: 100%;
   padding: 12px;
-  border: 2px solid #8b6a3e;
+  border: 2px solid #00aaff;
   border-radius: 6px;
-  background: #fff7e3;
+  background: rgba(0, 10, 20, 0.9);
+  color: #8fd3ff;
   font-size: 1.2rem;
+  outline: none;
+  box-shadow: 0 0 8px #007acc inset;
+  transition: 0.2s ease;
 }
 
+#answerInput:focus {
+  border-color: #00d4ff;
+  box-shadow: 0 0 12px #00d4ff inset, 0 0 10px #00d4ff;
+}
+
+/* PROGRESS TEXT */
 #progressText {
   margin-top: 20px;
   font-size: 1rem;
-  color: #5a4a2e;
+  color: #6fbfff;
+  text-shadow: 0 0 4px #007acc;
+}
+
+/* BLUE MATRIX PULSE ANIMATION */
+@keyframes matrixPulse {
+  0% { box-shadow: 0 0 6px #007acc; }
+  50% { box-shadow: 0 0 14px #00c8ff; }
+  100% { box-shadow: 0 0 6px #007acc; }
+}
+
+/* OPTIONAL: MATRIX RAIN BACKGROUND CANVAS */
+#matrix-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  background: #02040a;
+  pointer-events: none;
+}
+
+/* CONTENT ABOVE MATRIX RAIN */
+#app-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* BLUE MATRIX LOADING SCREEN */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: #02040a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  color: #00c8ff;
+  font-family: "Courier New", monospace;
+  font-size: 1.2rem;
+  animation: blueRainFlash 3s infinite linear;
+}
+
+/* BLUE RAIN FLASH EFFECT */
+@keyframes blueRainFlash {
+  0% { background: #02040a; }
+  50% { background: #03101f; }
+  100% { background: #02040a; }
+}
+
+/* FADE OUT LOADING SCREEN */
+#loading-screen.fade-out {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+  pointer-events: none;
 }
