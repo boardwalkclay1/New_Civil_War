@@ -1,0 +1,46 @@
+/* GLOBAL PARCHMENT THEME */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Georgia", serif;
+  background: #f2e6c9 url('images/parchment_texture.jpg');
+  background-size: cover;
+  color: #3a2f1b;
+}
+
+h1, h2, h3 {
+  font-family: "Times New Roman", serif;
+  color: #2d2415;
+  text-shadow: 1px 1px 0 #e8d9b8;
+}
+
+p, label, input, button {
+  font-size: 1.1rem;
+}
+
+.menu-btn {
+  display: block;
+  width: 80%;
+  margin: 12px auto;
+  padding: 12px;
+  background: #d4b98a;
+  border: 2px solid #8b6a3e;
+  border-radius: 6px;
+  text-align: center;
+  color: #3a2f1b;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.menu-btn:hover {
+  background: #e6cfa5;
+}
+
+section {
+  padding: 20px;
+  margin: 20px;
+  background: rgba(255, 248, 230, 0.85);
+  border: 2px solid #b89a6a;
+  border-radius: 8px;
+}
