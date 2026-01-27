@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Find Your Role</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link id="themeStylesheet" rel="stylesheet" href="theme_default.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>Role Assessment</h1>
+    <p>Answer honestly. Everything stays on your device.</p>
+  </header>
+
+  <form id="roleForm">
+
+    <section>
+      <h2>Skills</h2>
+      <label><input type="checkbox" name="skills" value="communication"> Communication</label>
+      <label><input type="checkbox" name="skills" value="logistics"> Logistics</label>
+      <label><input type="checkbox" name="skills" value="writing"> Writing</label>
+      <label><input type="checkbox" name="skills" value="media"> Media Creation</label>
+      <label><input type="checkbox" name="skills" value="repair"> Repair / Hands‑On</label>
+    </section>
+
+    <section>
+      <h2>Interests</h2>
+      <label><input type="checkbox" name="interests" value="history"> History</label>
+      <label><input type="checkbox" name="interests" value="fitness"> Fitness</label>
+      <label><input type="checkbox" name="interests" value="community"> Community Support</label>
+      <label><input type="checkbox" name="interests" value="mapping"> Mapping</label>
+      <label><input type="checkbox" name="interests" value="analysis"> Analysis</label>
+    </section>
+
+    <section>
+      <h2>Fitness</h2>
+      <label>Do you exercise?
+        <select name="exercise">
+          <option value="none">Not really</option>
+          <option value="light">Light</option>
+          <option value="moderate">Moderate</option>
+          <option value="heavy">Heavy</option>
+        </select>
+      </label>
+
+      <label>Height (optional)
+        <input type="number" name="height" placeholder="inches">
+      </label>
+
+      <label>Weight (optional)
+        <input type="number" name="weight" placeholder="lbs">
+      </label>
+    </section>
+
+    <button type="submit" class="menu-btn">Generate My Role</button>
+
+  </form>
+
+</body>
+</html>
