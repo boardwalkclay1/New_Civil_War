@@ -1,0 +1,49 @@
+/* GLOBAL SPACE THEME */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Orbitron", sans-serif;
+  background: radial-gradient(circle at center, #111 0%, #000 100%);
+  color: #e6e6e6;
+}
+
+h1, h2, h3 {
+  font-family: "Orbitron", sans-serif;
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(255,255,255,0.6);
+}
+
+p, label, input, button {
+  font-size: 1.1rem;
+  color: #dcdcdc;
+}
+
+.menu-btn {
+  display: block;
+  width: 80%;
+  margin: 12px auto;
+  padding: 12px;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 6px;
+  text-align: center;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.menu-btn:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: #ffffff;
+}
+
+section {
+  padding: 20px;
+  margin: 20px;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  backdrop-filter: blur(6px);
+}
