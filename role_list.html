@@ -8,8 +8,9 @@
   <!-- THEME -->
   <link id="themeStylesheet" rel="stylesheet" href="theme_space.css">
 
-  <!-- HAMBURGER MENU CSS -->
+  <!-- PAGE-SPECIFIC STYLES -->
   <style>
+    /* HAMBURGER */
     #hamburger {
       position: fixed;
       top: 20px;
@@ -19,7 +20,6 @@
       cursor: pointer;
       z-index: 2000;
     }
-
     #hamburger div {
       width: 100%;
       height: 6px;
@@ -29,6 +29,7 @@
       transition: 0.3s;
     }
 
+    /* SLIDE MENU */
     #sideMenu {
       position: fixed;
       top: 0;
@@ -43,7 +44,6 @@
       transition: left 0.3s ease;
       font-family: "Courier New", monospace;
     }
-
     #sideMenu a {
       display: block;
       margin: 14px 0;
@@ -52,29 +52,62 @@
       font-size: 1.1rem;
       text-shadow: 0 0 6px #00c8ff;
     }
-
     #sideMenu.open {
       left: 0;
+    }
+
+    /* ROLE GRID */
+    #roleList {
+      margin-top: 40px;
+      padding: 20px;
+    }
+    .role-card {
+      background: rgba(0, 30, 60, 0.7);
+      border: 1px solid #00aaff;
+      padding: 16px;
+      margin: 16px 0;
+      border-radius: 8px;
+      box-shadow: 0 0 12px #0077cc;
+    }
+    .role-card h2 {
+      margin: 0 0 6px 0;
+      color: #00c8ff;
+      text-shadow: 0 0 6px #00c8ff;
+    }
+    .role-card p {
+      margin: 4px 0;
+      color: #8fd3ff;
+    }
+
+    /* SEARCH + FILTER */
+    #searchBar, #categoryFilter {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0 20px 0;
+      background: rgba(0, 20, 40, 0.8);
+      border: 1px solid #00aaff;
+      color: #8fd3ff;
+      border-radius: 6px;
+      font-size: 1rem;
     }
   </style>
 </head>
 
 <body>
 
-<!-- HAMBURGER ICON -->
+<!-- HAMBURGER -->
 <div id="hamburger">
   <div></div>
   <div></div>
   <div></div>
 </div>
 
-<!-- SLIDE‑OUT MENU -->
+<!-- SLIDE MENU -->
 <nav id="sideMenu">
   <h2 style="color:#00c8ff; text-shadow:0 0 8px #00c8ff;">Navigation</h2>
   <a href="index.html">Home</a>
   <a href="role_finder.html">Find Your Role</a>
   <a href="role_list.html">All Roles</a>
-  <a href="history.html">History & Documentation</a>
   <a href="tests_home.html">Math & Science Trials</a>
   <a href="run_tracker.html">1‑Mile Run Tracker</a>
   <a href="profile.html">My Profile</a>
@@ -85,9 +118,31 @@
   <h1>All 15 Roles</h1>
 </header>
 
-<main id="roleList">
+<main>
 
-  <!-- JS will inject all roles here -->
+  <!-- SEARCH -->
+  <input id="searchBar" type="text" placeholder="Search roles by name, category, or skill...">
+
+  <!-- CATEGORY FILTER -->
+  <select id="categoryFilter">
+    <option value="">Filter by Category</option>
+    <option value="Information Flow">Information Flow</option>
+    <option value="Supplies & Resource Management">Supplies & Resource Management</option>
+    <option value="Terrain & Movement">Terrain & Movement</option>
+    <option value="Observation & Monitoring">Observation & Monitoring</option>
+    <option value="Documentation & Memory">Documentation & Memory</option>
+    <option value="Maps & Spatial Intelligence">Maps & Spatial Intelligence</option>
+    <option value="Movement & Guidance">Movement & Guidance</option>
+    <option value="Relationships & Tension Management">Relationships & Tension Management</option>
+    <option value="Training & Skill‑Building">Training & Skill‑Building</option>
+    <option value="Media & Evidence">Media & Evidence</option>
+    <option value="Systems & Infrastructure">Systems & Infrastructure</option>
+    <option value="Health & Support">Health & Support</option>
+    <option value="Connection & Networks">Connection & Networks</option>
+  </select>
+
+  <!-- ROLE LIST -->
+  <div id="roleList"></div>
 
   <a href="role_finder.html" class="menu-btn">Find Your Role</a>
   <a href="index.html" class="menu-btn">Back to Home</a>
@@ -99,13 +154,10 @@
 <script src="role_list_loader.js"></script>
 
 <script>
-  // HAMBURGER MENU LOGIC
+  // HAMBURGER MENU
   const hamburger = document.getElementById("hamburger");
   const sideMenu = document.getElementById("sideMenu");
-
-  hamburger.addEventListener("click", () => {
-    sideMenu.classList.toggle("open");
-  });
+  hamburger.addEventListener("click", () => sideMenu.classList.toggle("open"));
 </script>
 
 </body>
