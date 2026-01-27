@@ -1,28 +1,50 @@
-/* BADGES */
+/* BADGES – BLUE MATRIX TERMINAL MODE */
 
 #badgeList {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
   margin-top: 20px;
+  justify-content: center;
 }
 
+/* BASE BADGE STYLE */
 .badge {
-  background: #d4b98a;
-  border: 2px solid #8b6a3e;
+  background: radial-gradient(circle, rgba(0,60,120,0.9) 0%, rgba(0,20,40,0.95) 70%);
+  border: 2px solid #00aaff;
   border-radius: 50%;
   width: 90px;
   height: 90px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Georgia", serif;
+  font-family: "Courier New", monospace;
   font-weight: bold;
-  color: #3a2f1b;
+  color: #8fd3ff;
   text-align: center;
   padding: 10px;
+  box-shadow: 0 0 12px #0094ff;
+  text-shadow: 0 0 6px #00c8ff;
+  animation: badgePulse 5s infinite ease-in-out;
 }
 
+/* EARNED BADGE GLOW */
 .badge-earned {
-  box-shadow: 0 0 10px rgba(139, 106, 62, 0.8);
+  border-color: #00d4ff;
+  box-shadow: 0 0 18px #00d4ff, 0 0 28px #0094ff inset;
+  animation: badgeEarnedPulse 3s infinite ease-in-out;
+}
+
+/* PULSE FOR ALL BADGES */
+@keyframes badgePulse {
+  0% { box-shadow: 0 0 8px #007acc; }
+  50% { box-shadow: 0 0 14px #00c8ff; }
+  100% { box-shadow: 0 0 8px #007acc; }
+}
+
+/* STRONGER PULSE FOR EARNED BADGES */
+@keyframes badgeEarnedPulse {
+  0% { box-shadow: 0 0 12px #00aaff, 0 0 20px #007acc inset; }
+  50% { box-shadow: 0 0 22px #00e0ff, 0 0 30px #00c8ff inset; }
+  100% { box-shadow: 0 0 12px #00aaff, 0 0 20px #007acc inset; }
 }
