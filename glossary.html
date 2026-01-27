@@ -11,28 +11,298 @@
 
 <header>
   <h1>Glossary</h1>
+  <p class="subtitle">Every major term used across the entire system.</p>
 </header>
 
 <main>
 
+  <!-- ROLE SYSTEM -->
   <section>
     <h2>Role Number</h2>
-    <p>A unique identifier assigned to each civic role.</p>
+    <p>
+      A number from 1–15 representing your core civic role.  
+      Example: <strong>1 = Signal Runner</strong>, <strong>14 = Care Anchor</strong>.
+    </p>
+  </section>
+
+  <section>
+    <h2>Role Name</h2>
+    <p>
+      The title of your assigned civic function (e.g., Navigator, Quartermaster, Mediator).
+    </p>
   </section>
 
   <section>
     <h2>Category</h2>
-    <p>One of six major civic domains: information, supplies, logistics, documentation, media, mutual aid.</p>
+    <p>
+      The major domain your role belongs to.  
+      The app uses 12 categories:
+    </p>
+    <ul>
+      <li>Information Flow</li>
+      <li>Supplies & Resource Management</li>
+      <li>Terrain & Movement</li>
+      <li>Observation & Monitoring</li>
+      <li>Documentation & Memory</li>
+      <li>Maps & Spatial Intelligence</li>
+      <li>Movement & Guidance</li>
+      <li>Relationships & Tension Management</li>
+      <li>Training & Skill‑Building</li>
+      <li>Media & Evidence</li>
+      <li>Systems & Infrastructure</li>
+      <li>Health & Support</li>
+      <li>Connection & Networks</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Subcategory</h2>
+    <p>
+      A letter from A–E that defines your specialization inside a role.  
+      Example: <strong>1C = Field Relay</strong>.
+    </p>
+  </section>
+
+  <section>
+    <h2>Role ID</h2>
+    <p>
+      A combination of your Role Number and Subcategory Letter.  
+      Example: <strong>9B</strong> or <strong>3E</strong>.
+    </p>
+  </section>
+
+  <!-- ASSESSMENT SYSTEM -->
+  <section>
+    <h2>Assessment State</h2>
+    <p>
+      The internal system that tracks your progress, test scores, page completion, flags, and attempts.
+    </p>
+  </section>
+
+  <section>
+    <h2>Assessment Pages (1–4)</h2>
+    <p>
+      The four pages of the Find Your Role assessment:
+    </p>
+    <ul>
+      <li><strong>Page 1:</strong> Interests & Physical Activity</li>
+      <li><strong>Page 2:</strong> Pressure, Ethics, Consistency</li>
+      <li><strong>Page 3:</strong> Skills, Tools, Tech</li>
+      <li><strong>Page 4:</strong> Scenarios & Group Behavior</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Lie Flags</h2>
+    <p>
+      A hidden counter that increases when your answers contradict each other.
+    </p>
+  </section>
+
+  <section>
+    <h2>Answer‑Change Flags</h2>
+    <p>
+      A counter that increases when you change key answers during the assessment.
+    </p>
+  </section>
+
+  <section>
+    <h2>Attempts</h2>
+    <p>
+      The number of times you’ve submitted the assessment or taken tests.
+    </p>
+  </section>
+
+  <!-- TEST SYSTEM -->
+  <section>
+    <h2>Math Module</h2>
+    <p>
+      A set of arithmetic, algebra, and geometry tests that measure numerical reasoning.
+    </p>
+  </section>
+
+  <section>
+    <h2>Science Module</h2>
+    <p>
+      Tests covering states of matter, elements, and combined science reasoning.
+    </p>
+  </section>
+
+  <section>
+    <h2>Reading Module</h2>
+    <p>
+      A comprehension test that evaluates your ability to extract meaning from text.
+    </p>
   </section>
 
   <section>
     <h2>Badge</h2>
-    <p>A distinction earned by passing a math or science test.</p>
+    <p>
+      A distinction earned by passing math or science tests with high scores.
+    </p>
   </section>
 
   <section>
+    <h2>Test Review Page</h2>
+    <p>
+      A page that shows your score after completing a test.
+    </p>
+  </section>
+
+  <section>
+    <h2>Test Results Loader</h2>
+    <p>
+      A script that loads your test history and best scores.
+    </p>
+  </section>
+
+  <!-- FITNESS -->
+  <section>
     <h2>Run Tracker</h2>
-    <p>A module that records your 1‑mile time and progress.</p>
+    <p>
+      A module that records your 1‑mile time, logs improvements, and stores your best run.
+    </p>
+  </section>
+
+  <section>
+    <h2>Run History Loader</h2>
+    <p>
+      A script that loads your past run times and displays your progress.
+    </p>
+  </section>
+
+  <!-- SUBCATEGORY SYSTEM -->
+  <section>
+    <h2>Subcategory Page</h2>
+    <p>
+      A dedicated page that explains your subcategory’s meaning, skills, impact, and training modules.
+    </p>
+  </section>
+
+  <section>
+    <h2>Training Modules</h2>
+    <p>
+      Recommended exercises, readings, or drills that strengthen your subcategory.
+    </p>
+  </section>
+
+  <!-- STORAGE & SYSTEM -->
+  <section>
+    <h2>Storage Manager</h2>
+    <p>
+      The system that saves your data locally on your device.
+    </p>
+  </section>
+
+  <section>
+    <h2>Local‑Only Data</h2>
+    <p>
+      All data is stored on your device only. Nothing is uploaded or synced.
+    </p>
+  </section>
+
+  <section>
+    <h2>Service Worker</h2>
+    <p>
+      Enables offline mode and PWA installation.
+    </p>
+  </section>
+
+  <section>
+    <h2>PWA</h2>
+    <p>
+      Progressive Web App mode that lets you install the app on your device.
+    </p>
+  </section>
+
+  <!-- UI SYSTEM -->
+  <section>
+    <h2>Theme</h2>
+    <p>
+      The visual style of the app. Includes default, space, and future themes.
+    </p>
+  </section>
+
+  <section>
+    <h2>Theme Manager</h2>
+    <p>
+      A script that switches themes and saves your preference.
+    </p>
+  </section>
+
+  <section>
+    <h2>Hamburger Menu</h2>
+    <p>
+      The slide‑out navigation menu used across the app.
+    </p>
+  </section>
+
+  <!-- SHARE SYSTEM -->
+  <section>
+    <h2>Share Card</h2>
+    <p>
+      A generated card that displays your role, subcategory, and achievements.
+    </p>
+  </section>
+
+  <section>
+    <h2>Share Card Generator</h2>
+    <p>
+      The script that builds your shareable role card.
+    </p>
+  </section>
+
+  <!-- HISTORY SYSTEM -->
+  <section>
+    <h2>History Loader</h2>
+    <p>
+      Loads historical stories and civic parallels for your role.
+    </p>
+  </section>
+
+  <!-- ROLE FINDER -->
+  <section>
+    <h2>Role Finder</h2>
+    <p>
+      The multi‑page assessment that determines your Role ID.
+    </p>
+  </section>
+
+  <section>
+    <h2>Role Finder Engine</h2>
+    <p>
+      The logic that calculates your role based on tests, answers, skills, and behavior.
+    </p>
+  </section>
+
+  <section>
+    <h2>Scenario Engine</h2>
+    <p>
+      The system that evaluates your responses to real‑world situations.
+    </p>
+  </section>
+
+  <!-- PROFILE -->
+  <section>
+    <h2>Profile Page</h2>
+    <p>
+      Displays your role, subcategory, test scores, run times, and badges.
+    </p>
+  </section>
+
+  <!-- NAVIGATION -->
+  <section>
+    <h2>Dashboard</h2>
+    <p>
+      A hidden panel showing attempts, flags, test scores, and role status.
+    </p>
+  </section>
+
+  <section>
+    <h2>Dashboard Icon</h2>
+    <p>
+      The glowing symbol that opens the dashboard panel.
+    </p>
   </section>
 
   <a href="index.html" class="menu-btn">Back to Home</a>
