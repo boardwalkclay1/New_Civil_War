@@ -1,25 +1,49 @@
-/* BUTTONS */
+/* BUTTONS – BLUE MATRIX TERMINAL MODE */
 
+/* BASE BUTTON */
 button {
-  font-family: "Georgia", serif;
+  font-family: "Courier New", monospace;
   padding: 10px 18px;
   border-radius: 6px;
-  border: 2px solid #8b6a3e;
-  background: #d4b98a;
-  color: #3a2f1b;
+  border: 2px solid #00aaff;
+  background: rgba(0, 20, 40, 0.85);
+  color: #8fd3ff;
   cursor: pointer;
+  box-shadow: 0 0 10px #007acc;
+  text-shadow: 0 0 6px #00c8ff;
+  transition: 0.2s ease;
 }
 
+/* HOVER STATE */
 button:hover {
-  background: #e6cfa5;
+  background: rgba(0, 40, 70, 0.9);
+  border-color: #00d4ff;
+  box-shadow: 0 0 14px #00d4ff;
 }
 
+/* DANGER BUTTON (RED ALERT TERMINAL) */
 button.danger {
-  background: #b86a6a;
-  border-color: #7a3a3a;
-  color: white;
+  background: rgba(40, 0, 0, 0.85);
+  border-color: #ff3b3b;
+  color: #ff9a9a;
+  box-shadow: 0 0 12px #ff3b3b;
+  text-shadow: 0 0 6px #ff5f5f;
 }
 
+/* DANGER HOVER */
 button.danger:hover {
-  background: #d47c7c;
+  background: rgba(70, 0, 0, 0.9);
+  border-color: #ff6b6b;
+  box-shadow: 0 0 18px #ff6b6b;
+}
+
+/* OPTIONAL: BUTTON PULSE */
+@keyframes buttonPulse {
+  0% { box-shadow: 0 0 6px #007acc; }
+  50% { box-shadow: 0 0 14px #00c8ff; }
+  100% { box-shadow: 0 0 6px #007acc; }
+}
+
+button.matrix-pulse {
+  animation: buttonPulse 4s infinite ease-in-out;
 }
