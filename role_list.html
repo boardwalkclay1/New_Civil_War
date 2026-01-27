@@ -4,10 +4,82 @@
   <meta charset="UTF-8">
   <title>All Roles</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="theme_default.css">
+
+  <!-- THEME -->
+  <link id="themeStylesheet" rel="stylesheet" href="theme_space.css">
+
+  <!-- HAMBURGER MENU CSS -->
+  <style>
+    #hamburger {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 40px;
+      height: 30px;
+      cursor: pointer;
+      z-index: 2000;
+    }
+
+    #hamburger div {
+      width: 100%;
+      height: 6px;
+      background: #00c8ff;
+      margin: 5px 0;
+      box-shadow: 0 0 8px #00c8ff;
+      transition: 0.3s;
+    }
+
+    #sideMenu {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 260px;
+      height: 100vh;
+      background: rgba(0, 20, 40, 0.95);
+      border-right: 2px solid #00aaff;
+      box-shadow: 0 0 20px #0094ff;
+      padding: 20px;
+      z-index: 1500;
+      transition: left 0.3s ease;
+      font-family: "Courier New", monospace;
+    }
+
+    #sideMenu a {
+      display: block;
+      margin: 14px 0;
+      color: #8fd3ff;
+      text-decoration: none;
+      font-size: 1.1rem;
+      text-shadow: 0 0 6px #00c8ff;
+    }
+
+    #sideMenu.open {
+      left: 0;
+    }
+  </style>
 </head>
 
 <body>
+
+<!-- HAMBURGER ICON -->
+<div id="hamburger">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<!-- SLIDE‑OUT MENU -->
+<nav id="sideMenu">
+  <h2 style="color:#00c8ff; text-shadow:0 0 8px #00c8ff;">Navigation</h2>
+  <a href="index.html">Home</a>
+  <a href="role_finder.html">Find Your Role</a>
+  <a href="role_list.html">All Roles</a>
+  <a href="history.html">History & Documentation</a>
+  <a href="tests_home.html">Math & Science Trials</a>
+  <a href="run_tracker.html">1‑Mile Run Tracker</a>
+  <a href="profile.html">My Profile</a>
+  <a href="settings.html">Settings</a>
+</nav>
 
 <header>
   <h1>All 15 Roles</h1>
@@ -16,17 +88,25 @@
 <main id="roleList">
 
   <!-- JS will inject all roles here -->
-  <!-- Example structure:
-  <div class="role-card">
-    <h2>#1 Signal Runner</h2>
-    <p>Category: Information Flow</p>
-    <p>Description...</p>
-  </div>
-  -->
 
+  <a href="role_finder.html" class="menu-btn">Find Your Role</a>
   <a href="index.html" class="menu-btn">Back to Home</a>
 
 </main>
+
+<!-- JS LOADERS -->
+<script src="roles.js"></script>
+<script src="role_list_loader.js"></script>
+
+<script>
+  // HAMBURGER MENU LOGIC
+  const hamburger = document.getElementById("hamburger");
+  const sideMenu = document.getElementById("sideMenu");
+
+  hamburger.addEventListener("click", () => {
+    sideMenu.classList.toggle("open");
+  });
+</script>
 
 </body>
 </html>
