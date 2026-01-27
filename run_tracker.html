@@ -9,22 +9,50 @@
 
 <body>
 
-  <header>
-    <h1>1‑Mile Run Tracker</h1>
-    <p>Track your real mile time. Offline. Stored locally.</p>
-  </header>
+<header>
+  <h1>1‑Mile Run Tracker</h1>
+  <p>Uses GPS + motion sensors. All data stays on your device.</p>
+</header>
 
-  <section id="runSection">
-    <button id="startRunBtn" class="menu-btn">Start Run</button>
+<main>
+
+  <section id="permissionSection">
+    <h2>Enable Sensors</h2>
+    <p>This tracker needs access to:</p>
+    <ul>
+      <li>GPS location (to measure distance)</li>
+      <li>Motion sensors (to confirm movement)</li>
+    </ul>
+    <button id="enableSensorsBtn" class="menu-btn">Enable Sensors</button>
+  </section>
+
+  <section id="runSection" style="display:none;">
+    <h2>Start Your Run</h2>
+    <button id="startRunBtn" class="menu-btn">Start 1‑Mile Run</button>
+
+    <div id="liveStats" style="display:none;">
+      <h3>Live Stats</h3>
+      <p><strong>Distance:</strong> <span id="liveDistance">0.00</span> miles</p>
+      <p><strong>Time:</strong> <span id="liveTime">0s</span></p>
+      <p><strong>Speed:</strong> <span id="liveSpeed">0</span> mph</p>
+      <p><strong>Steps (estimated):</strong> <span id="liveSteps">0</span></p>
+    </div>
 
     <div id="runResults" style="display:none;">
       <h2>Run Complete</h2>
-      <p id="runTime"></p>
-      <p id="bestTime"></p>
+      <p><strong>Your Time:</strong> <span id="runTime"></span></p>
+      <p><strong>Best Time:</strong> <span id="bestTime"></span></p>
+      <a href="run_history.html" class="menu-btn">View Run History</a>
     </div>
   </section>
 
   <a href="index.html" class="menu-btn">Back to Home</a>
+
+</main>
+
+<script src="storage_manager.js"></script>
+<script src="theme_manager.js"></script>
+<script src="run_tracker.js"></script>
 
 </body>
 </html>
