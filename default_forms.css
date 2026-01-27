@@ -1,32 +1,61 @@
-/* FORMS */
+/* FORMS – BLUE MATRIX TERMINAL MODE */
 
+/* FORM PANEL */
 form {
-  background: rgba(255, 248, 230, 0.9);
-  border: 2px solid #b89a6a;
+  background: rgba(0, 20, 40, 0.85);
+  border: 2px solid #00aaff;
   border-radius: 8px;
   padding: 20px;
   margin: 20px;
+  box-shadow: 0 0 12px #0094ff;
+  animation: matrixPulse 5s infinite ease-in-out;
+  color: #8fd3ff;
+  font-family: "Courier New", monospace;
 }
 
+/* LABELS */
 label {
   display: block;
-  margin: 10px 0;
-  color: #3a2f1b;
+  margin: 12px 0;
+  color: #8fd3ff;
+  text-shadow: 0 0 6px #00c8ff;
+  font-size: 1rem;
 }
 
+/* TEXT INPUTS, NUMBER INPUTS, SELECTS */
 input[type="text"],
 input[type="number"],
 select {
   width: 100%;
   padding: 10px;
   margin-top: 6px;
-  border: 2px solid #b89a6a;
+  border: 2px solid #00aaff;
   border-radius: 6px;
-  background: #fff7e3;
-  color: #3a2f1b;
+  background: rgba(0, 10, 20, 0.9);
+  color: #8fd3ff;
   font-size: 1rem;
+  outline: none;
+  box-shadow: 0 0 8px #007acc inset;
+  transition: 0.2s ease;
 }
 
+/* FOCUS STATE */
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: #00d4ff;
+  box-shadow: 0 0 12px #00d4ff inset, 0 0 10px #00d4ff;
+}
+
+/* CHECKBOXES */
 input[type="checkbox"] {
   margin-right: 8px;
+  accent-color: #00c8ff;
+}
+
+/* BLUE MATRIX PULSE */
+@keyframes matrixPulse {
+  0% { box-shadow: 0 0 6px #007acc; }
+  50% { box-shadow: 0 0 14px #00c8ff; }
+  100% { box-shadow: 0 0 6px #007acc; }
 }
