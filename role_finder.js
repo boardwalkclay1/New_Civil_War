@@ -1,34 +1,58 @@
 /* ROLE FINDER CONTROLLER – ADVANCED */
+/* Collects full form data → calculateRole → save → redirect */
 
 document.getElementById("roleForm").addEventListener("submit", e => {
   e.preventDefault();
 
-  const formData = getRoleFormData(); // includes skills, interests, fitness, scenarios, etc.
-  const result = calculateRole(formData); // returns { roleNumber, category }
+  const formData = getRoleFormData();
+  const result = calculateRole(formData);
 
-  const role = RoleDB[result.roleNumber];
+  const role = RoleDB.find(r => r.number === result.roleNumber);
 
-  const fullProfile = {
+  if (!role) {
+    alert("Something went wrong assigning your role. Please try again.");
+    return;
+  }
+
+  Storage.save("role", {
     name: role.name,
     number: result.roleNumber,
     category: role.category,
     description: role.description,
-
-    skills: formData.skills || [],
-    interests: formData.interests || [],
-    exercise: formData.exercise || "none",
-    height: formData.height || null,
-    weight: formData.weight || null,
-
-    agent_door: formData.agent_door || null,
-    agent_arrest: formData.agent_arrest || null,
-    agent_approach: formData.agent_approach || null,
-    crowd_force: formData.crowd_force || null,
-    pressure_style: formData.pressure_style || null,
-    contribution: formData.contribution || []
-  };
-
-  Storage.save("role", fullProfile);
+    rawCategoryKey: result.category,
+    formData
+  });
 
   window.location.href = "role_result.html";
 });
+
+/* -----------------------------------------
+   FORM DATA EXTRACTION
+----------------------------------------- */
+
+function getRoleFormData() {
+  const form = document.getElementById("roleForm");
+
+  const getCheckedValues = name =>
+    Array.from(form.querySelectorAll(`input[name="${name}"]:checked`))
+      .map(i => i.value);
+
+  const getRadioValue = name => {
+    const el = form.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : null;
+  };
+
+  return {
+    skills: getCheckedValues("skills"),
+    interests: getCheckedValues("interests"),
+    exercise: getRadioValue("exercise"),
+
+    agent_door: getRadioValue("agent_door"),
+    agent_arrest: getRadioValue("agent_arrest"),
+    agent_approach: getRadioValue("agent_approach"),
+    crowd_force: getRadioValue("crowd_force"),
+
+    pressure_style: getRadioValue("pressure_style"),
+    contribution: getCheckedValues("contribution")
+  };
+}
