@@ -1,0 +1,26 @@
+/* RUN TRACKER */
+
+#runSection {
+  text-align: center;
+  padding: 20px;
+}
+
+#runResults {
+  margin-top: 20px;
+  background: rgba(255, 248, 230, 0.9);
+  border: 2px solid #b89a6a;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+#runHistoryList {
+  margin: 20px;
+}
+
+.run-entry {
+  background: rgba(255, 248, 230, 0.9);
+  border: 2px solid #b89a6a;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
