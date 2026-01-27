@@ -1,5 +1,5 @@
 /* STORAGE MANAGER */
-/* Handles saving + loading all local data */
+/* Handles saving + loading all local data safely */
 
 const Storage = {
   save(key, value) {
@@ -7,8 +7,16 @@ const Storage = {
   },
 
   load(key, fallback = null) {
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : fallback;
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+
+    try {
+      return JSON.parse(raw);
+    } catch (err) {
+      console.warn(`Storage.load(): Invalid JSON for key "${key}". Resetting it.`, raw);
+      localStorage.removeItem(key);
+      return fallback;
+    }
   },
 
   remove(key) {
