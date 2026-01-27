@@ -67,6 +67,18 @@
       font-size: 1rem;
     }
 
+    /* PAGE COMPLETION */
+    #pageStatus {
+      margin: 20px;
+      padding: 12px;
+      background: rgba(0, 20, 40, 0.7);
+      border: 1px solid #00aaff;
+      border-radius: 6px;
+      color: #8fd3ff;
+      text-shadow: 0 0 6px #00c8ff;
+      font-size: 1rem;
+    }
+
     /* PAGE CONTENT */
     header h1 {
       margin-top: 80px;
@@ -131,6 +143,7 @@
 
 <!-- STATUS BAR -->
 <div id="moduleStatus">Loading module status...</div>
+<div id="pageStatus">Loading page completion...</div>
 
 <main class="menu">
 
@@ -176,7 +189,21 @@
       `Reading [${readDone}] • Typing [${typeDone}] • Math [${mathDone}] • Science [${sciDone}]`;
   }
 
+  function updatePageStatus() {
+    const s = AssessmentState.load();
+    const el = document.getElementById("pageStatus");
+
+    const p1 = s.roleFinder.page1 ? "✔" : " ";
+    const p2 = s.roleFinder.page2 ? "✔" : " ";
+    const p3 = s.roleFinder.page3 ? "✔" : " ";
+    const p4 = s.roleFinder.page4 ? "✔" : " ";
+
+    el.textContent =
+      `Role Finder Pages: 1 [${p1}] • 2 [${p2}] • 3 [${p3}] • 4 [${p4}]`;
+  }
+
   updateModuleStatus();
+  updatePageStatus();
 </script>
 
 </body>
