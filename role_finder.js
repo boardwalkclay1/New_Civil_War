@@ -1,12 +1,11 @@
 /* role_finder_logic.js */
-/* Advanced logic shell for the Find Your Role page */
+/* Hardened logic for the Find Your Role page */
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("roleFinderForm");
   if (!form) return;
 
-  // Step/page handling is already wired in the HTML inline script,
-  // but we still track completion here.
+  safeInitAssessmentState();
   initRoleFinderState();
   updateModuleStatus();
   wireAnswerTracking(form);
@@ -14,13 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const state = AssessmentState.load();
+    const state = safeLoadState();
 
     // Mark page 4 as complete when they submit
     state.roleFinder.page4 = true;
     state.roleFinder.attempts = (state.roleFinder.attempts || 0) + 1;
     state.attempts = (state.attempts || 0) + 1;
-    AssessmentState.save(state);
+    safeSaveState(state);
 
     // Check modules + pages
     if (!modulesComplete() || !pagesComplete()) {
@@ -36,17 +35,20 @@ document.addEventListener("DOMContentLoaded", () => {
     applyLieDetection(answers);
 
     // Re‑load state after lie detection
-    const updatedState = AssessmentState.load();
+    const updatedState = safeLoadState();
 
     // Calculate role (placeholder engine for now)
     const roleResult = calculateAdvancedRole(answers, updatedState);
 
-    // Save role assignment
-    Storage.save("roleAssignment", roleResult);
-
-    // Mark role attempt in AssessmentState
+    // Save role assignment into AssessmentState
     updatedState.roleFinder.lastResult = roleResult;
-    AssessmentState.save(updatedState);
+    updatedState.roleAssignment = roleResult;
+    safeSaveState(updatedState);
+
+    // Also mirror into localStorage for other pages if needed
+    try {
+      localStorage.setItem("roleAssignment", JSON.stringify(roleResult));
+    } catch (e) {}
 
     // Reveal result section
     showRoleResult(roleResult);
@@ -54,10 +56,50 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* -----------------------------------------
+   SAFE WRAPPERS AROUND AssessmentState
+----------------------------------------- */
+function safeLoadState() {
+  if (typeof AssessmentState !== "undefined" && AssessmentState.load) {
+    return AssessmentState.load();
+  }
+  // Fallback: localStorage
+  try {
+    const raw = localStorage.getItem("assessmentState");
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function safeSaveState(state) {
+  if (typeof AssessmentState !== "undefined" && AssessmentState.save) {
+    AssessmentState.save(state);
+    return;
+  }
+  // Fallback: localStorage
+  try {
+    localStorage.setItem("assessmentState", JSON.stringify(state));
+  } catch (e) {}
+}
+
+function safeInitAssessmentState() {
+  const s = safeLoadState();
+  if (!s.math) s.math = { attempts: 0, bestScore: null };
+  if (!s.science) s.science = { attempts: 0, bestScore: null };
+  if (!s.reading) s.reading = { attempts: 0, bestScore: null };
+  if (!s.typing) s.typing = { attempts: 0, bestScore: null };
+  if (!s.roleFinder) s.roleFinder = {};
+  if (typeof s.attempts !== "number") s.attempts = 0;
+  if (typeof s.lieFlags !== "number") s.lieFlags = 0;
+  if (typeof s.answerChangeFlags !== "number") s.answerChangeFlags = 0;
+  safeSaveState(s);
+}
+
+/* -----------------------------------------
    INITIALIZE ROLE FINDER STATE
 ----------------------------------------- */
 function initRoleFinderState() {
-  const state = AssessmentState.load();
+  const state = safeLoadState();
   if (!state.roleFinder) {
     state.roleFinder = {
       attempts: 0,
@@ -68,35 +110,26 @@ function initRoleFinderState() {
       lastResult: null
     };
   } else {
-    // Ensure flags exist
+    state.roleFinder.attempts = state.roleFinder.attempts || 0;
     state.roleFinder.page1 = !!state.roleFinder.page1;
     state.roleFinder.page2 = !!state.roleFinder.page2;
     state.roleFinder.page3 = !!state.roleFinder.page3;
     state.roleFinder.page4 = !!state.roleFinder.page4;
+    state.roleFinder.lastResult = state.roleFinder.lastResult || null;
   }
 
-  // Ensure global fields exist
-  state.attempts = state.attempts || 0;
-  state.lieFlags = state.lieFlags || 0;
-  state.answerChangeFlags = state.answerChangeFlags || 0;
-
-  // Ensure module objects exist
-  state.math = state.math || { attempts: 0, bestScore: null };
-  state.science = state.science || { attempts: 0, bestScore: null };
-  state.reading = state.reading || { attempts: 0, bestScore: null };
-
-  AssessmentState.save(state);
+  safeSaveState(state);
 }
 
 /* -----------------------------------------
    MODULE COMPLETION CHECK
 ----------------------------------------- */
 function modulesComplete() {
-  const s = AssessmentState.load();
+  const s = safeLoadState();
   return (
     s.math && s.math.bestScore !== null &&
     s.science && s.science.bestScore !== null &&
-    s.reading && s.reading.bestScore !== null // reading test will fill this later
+    s.reading && s.reading.bestScore !== null
   );
 }
 
@@ -104,14 +137,9 @@ function modulesComplete() {
    PAGE COMPLETION CHECK
 ----------------------------------------- */
 function pagesComplete() {
-  const s = AssessmentState.load();
-  return (
-    s.roleFinder &&
-    s.roleFinder.page1 &&
-    s.roleFinder.page2 &&
-    s.roleFinder.page3 &&
-    s.roleFinder.page4
-  );
+  const s = safeLoadState();
+  const rf = s.roleFinder || {};
+  return !!(rf.page1 && rf.page2 && rf.page3 && rf.page4);
 }
 
 /* -----------------------------------------
@@ -121,16 +149,17 @@ function updateModuleStatus() {
   const el = document.getElementById("moduleStatus");
   if (!el) return;
 
-  const s = AssessmentState.load();
+  const s = safeLoadState();
+  const rf = s.roleFinder || {};
 
-  const mathDone = s.math.bestScore !== null ? "✔" : " ";
-  const sciDone = s.science.bestScore !== null ? "✔" : " ";
-  const readDone = s.reading.bestScore !== null ? "✔" : " ";
+  const mathDone = s.math && s.math.bestScore !== null ? "✔" : " ";
+  const sciDone = s.science && s.science.bestScore !== null ? "✔" : " ";
+  const readDone = s.reading && s.reading.bestScore !== null ? "✔" : " ";
 
-  const p1 = s.roleFinder.page1 ? "✔" : " ";
-  const p2 = s.roleFinder.page2 ? "✔" : " ";
-  const p3 = s.roleFinder.page3 ? "✔" : " ";
-  const p4 = s.roleFinder.page4 ? "✔" : " ";
+  const p1 = rf.page1 ? "✔" : " ";
+  const p2 = rf.page2 ? "✔" : " ";
+  const p3 = rf.page3 ? "✔" : " ";
+  const p4 = rf.page4 ? "✔" : " ";
 
   el.textContent =
     `Modules completed: Math [${mathDone}], Science [${sciDone}], Reading [${readDone}] • ` +
@@ -143,34 +172,34 @@ function updateModuleStatus() {
 let previousAnswers = {};
 
 function wireAnswerTracking(form) {
-  const state = AssessmentState.load();
-
-  // Mark page completion when they leave each page via Next
   const next1 = document.getElementById("nextStep1");
   const next2 = document.getElementById("nextStep2");
   const next3 = document.getElementById("nextStep3");
 
   if (next1) {
     next1.addEventListener("click", () => {
-      const s = AssessmentState.load();
+      const s = safeLoadState();
+      if (!s.roleFinder) s.roleFinder = {};
       s.roleFinder.page1 = true;
-      AssessmentState.save(s);
+      safeSaveState(s);
       updateModuleStatus();
     });
   }
   if (next2) {
     next2.addEventListener("click", () => {
-      const s = AssessmentState.load();
+      const s = safeLoadState();
+      if (!s.roleFinder) s.roleFinder = {};
       s.roleFinder.page2 = true;
-      AssessmentState.save(s);
+      safeSaveState(s);
       updateModuleStatus();
     });
   }
   if (next3) {
     next3.addEventListener("click", () => {
-      const s = AssessmentState.load();
+      const s = safeLoadState();
+      if (!s.roleFinder) s.roleFinder = {};
       s.roleFinder.page3 = true;
-      AssessmentState.save(s);
+      safeSaveState(s);
       updateModuleStatus();
     });
   }
@@ -191,12 +220,12 @@ function wireAnswerTracking(form) {
 
     if (!keyNames.includes(target.name)) return;
 
-    const state = AssessmentState.load();
+    const s = safeLoadState();
     const prev = previousAnswers[target.name];
 
     if (prev !== undefined && prev !== target.value) {
-      state.answerChangeFlags = (state.answerChangeFlags || 0) + 1;
-      AssessmentState.save(state);
+      s.answerChangeFlags = (s.answerChangeFlags || 0) + 1;
+      safeSaveState(s);
     }
 
     previousAnswers[target.name] = target.value;
@@ -241,22 +270,19 @@ function collectAnswers(form) {
    LIE DETECTION / CONSISTENCY CHECK
 ----------------------------------------- */
 function applyLieDetection(answers) {
-  const state = AssessmentState.load();
+  const state = safeLoadState();
   let flags = 0;
 
-  // Pressure style vs check
   if (answers.pressure_style && answers.pressure_style_check) {
     if (answers.pressure_style !== answers.pressure_style_check) {
       flags++;
     }
   }
 
-  // Example: high risk + slow decision speed is a mild inconsistency
   if (answers.risk === "high" && answers.decision_speed === "slow") {
     flags++;
   }
 
-  // Example: says "help_others" but chooses "comply" in agent_door and "record" in crowd_force
   if (answers.pressure_style === "help_others") {
     if (answers.agent_door === "comply" && answers.crowd_force === "record") {
       flags++;
@@ -264,43 +290,32 @@ function applyLieDetection(answers) {
   }
 
   state.lieFlags = (state.lieFlags || 0) + flags;
-  AssessmentState.save(state);
+  safeSaveState(state);
 }
 
 /* -----------------------------------------
    ROLE ENGINE (PLACEHOLDER – YOU’LL DEEPEN THIS)
 ----------------------------------------- */
 function calculateAdvancedRole(answers, state) {
-  // This is a simple placeholder to give you a working pipeline.
-  // You will later replace this with a deeper algorithm that uses:
-  // - state.math.bestScore, state.science.bestScore, state.reading.bestScore
-  // - answers.interests, answers.skills, answers.scenarios, etc.
-  // - state.lieFlags, state.answerChangeFlags
-
-  let roleNumber = 1;      // default
+  let roleNumber = 1;
   let subcategoryCode = "A";
 
-  // Example: strong mapping/nav interest -> navigation roles
   if (answers.interests.includes("mapping") || answers.skills.includes("navigation")) {
-    roleNumber = 9; // e.g., Navigator/Scout
+    roleNumber = 9;
   }
 
-  // Example: strong writing/history -> documentation roles
   if (answers.interests.includes("history") || answers.skills.includes("writing")) {
-    roleNumber = 10; // e.g., Chronicler
+    roleNumber = 7; // Chronicler
   }
 
-  // Example: strong first aid -> care roles
   if (answers.skills.includes("first_aid")) {
-    roleNumber = 14; // e.g., Care / Mutual Aid
+    roleNumber = 14;
   }
 
-  // Example: tech + analysis -> information roles
   if (answers.interests.includes("tech") && answers.interests.includes("analysis")) {
-    roleNumber = 1; // e.g., Signal / Info Flow
+    roleNumber = 1;
   }
 
-  // Subcategory based on skills
   if (answers.skills.includes("computer")) subcategoryCode = "B";
   if (answers.skills.includes("radio")) subcategoryCode = "C";
   if (answers.skills.includes("design")) subcategoryCode = "D";
