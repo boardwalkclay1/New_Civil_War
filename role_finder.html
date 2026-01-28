@@ -1,416 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Find Your Role – Advanced Assessment</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>Find Your Role – Assessment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style>
-/* ------------------------------
-   GLOBAL BLUE MATRIX THEME
---------------------------------*/
-body {
-  margin: 0;
-  padding: 0;
-  background: #000814;
-  color: #b8eaff;
-  font-family: 'Segoe UI', sans-serif;
-  overflow-x: hidden;
-}
+  <link id="themeStylesheet" rel="stylesheet" href="theme_space.css">
 
-/* MATRIX RAIN CANVAS */
-#matrixRain {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  z-index: -1;
-  opacity: 0.25;
-}
+  <style>
+    /* HAMBURGER */
+    #hamburger {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 40px;
+      height: 30px;
+      cursor: pointer;
+      z-index: 2000;
+    }
+    #hamburger div {
+      width: 100%;
+      height: 6px;
+      background: #00c8ff;
+      margin: 5px 0;
+      box-shadow: 0 0 8px #00c8ff;
+      transition: 0.3s;
+    }
 
-/* LOADING SCREEN */
-#loadingScreen {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: #000814;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  animation: fadeOut 1s ease forwards;
-  animation-delay: 2.5s;
-}
+    #sideMenu {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 260px;
+      height: 100vh;
+      background: rgba(0, 20, 40, 0.95);
+      border-right: 2px solid #00aaff;
+      box-shadow: 0 0 20px #0094ff;
+      padding: 20px;
+      z-index: 1500;
+      transition: left 0.3s ease;
+      font-family: "Courier New", monospace;
+    }
+    #sideMenu a {
+      display: block;
+      margin: 14px 0;
+      color: #8fd3ff;
+      text-decoration: none;
+      font-size: 1.1rem;
+      text-shadow: 0 0 6px #00c8ff;
+    }
+    #sideMenu.open {
+      left: 0;
+    }
 
-.loading-text {
-  font-size: 1.4rem;
-  color: #00c8ff;
-  margin-top: 20px;
-  text-shadow: 0 0 10px #00c8ff;
-}
+    /* STEP SYSTEM */
+    .rf-step { display: none; }
+    .rf-step.active { display: block; }
 
-@keyframes fadeOut {
-  to { opacity: 0; visibility: hidden; }
-}
+    .rf-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
 
-/* HEADER */
-header {
-  text-align: center;
-  padding: 30px 20px;
-}
+    #moduleStatus {
+      margin: 20px;
+      padding: 12px;
+      background: rgba(0, 30, 60, 0.7);
+      border: 1px solid #00aaff;
+      border-radius: 6px;
+      color: #8fd3ff;
+      text-shadow: 0 0 6px #00c8ff;
+      font-size: 1rem;
+    }
 
-header h1 {
-  font-size: 2.4rem;
-  color: #00c8ff;
-  text-shadow: 0 0 12px #00c8ff;
-}
-
-/* NAVIGATION LINKS */
-.top-links {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 25px;
-}
-
-.top-links a {
-  color: #6fcfff;
-  text-decoration: none;
-  font-size: 1rem;
-  padding: 6px 12px;
-  border: 1px solid #00aaff;
-  border-radius: 4px;
-  transition: 0.2s;
-}
-
-.top-links a:hover {
-  background: rgba(0, 60, 120, 0.6);
-  box-shadow: 0 0 10px #00c8ff;
-}
-
-/* PANELS */
-.matrix-panel {
-  background: rgba(0, 20, 40, 0.7);
-  border: 1px solid #00aaff;
-  padding: 20px;
-  margin: 20px auto;
-  width: 92%;
-  max-width: 900px;
-  border-radius: 6px;
-  box-shadow: 0 0 12px #003f66;
-}
-
-/* STEP INDICATOR */
-.step-indicator {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin: 20px 0;
-}
-
-.step-indicator span {
-  padding: 6px 12px;
-  border: 1px solid #00aaff;
-  border-radius: 4px;
-  font-size: 0.9rem;
-}
-
-.step-indicator .active {
-  background: rgba(0, 40, 70, 0.9);
-  box-shadow: 0 0 10px #00c8ff;
-}
-
-/* FORM STEPS */
-.rf-step { display: none; }
-.rf-step.active { display: block; }
-
-/* BUTTONS */
-.menu-btn {
-  background: rgba(0, 60, 120, 0.7);
-  border: 1px solid #00aaff;
-  padding: 8px 14px;
-  color: #b8eaff;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.menu-btn:hover {
-  background: rgba(0, 90, 160, 0.8);
-  box-shadow: 0 0 10px #00c8ff;
-}
-
-.menu-btn.small {
-  font-size: 0.9rem;
-}
-
-/* NUMBERED QUESTIONS */
-.question-block {
-  margin-bottom: 20px;
-}
-
-.question-number {
-  font-weight: bold;
-  color: #00c8ff;
-  margin-bottom: 6px;
-  text-shadow: 0 0 6px #00c8ff;
-}
-
-label {
-  display: block;
-  margin: 6px 0;
-  cursor: pointer;
-}
-
-/* NAVIGATION */
-.rf-nav {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-</style>
+    .menu-btn {
+      display: inline-block;
+      padding: 10px 16px;
+      background: rgba(0, 30, 60, 0.7);
+      border: 1px solid #00aaff;
+      border-radius: 6px;
+      color: #8fd3ff;
+      text-decoration: none;
+      margin-top: 10px;
+      box-shadow: 0 0 10px #0077cc;
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- MATRIX RAIN -->
-<canvas id="matrixRain"></canvas>
-
-<!-- LOADING SCREEN -->
-<div id="loadingScreen">
-  <div class="loading-text">Initializing Assessment System...</div>
+<!-- HAMBURGER -->
+<div id="hamburger">
+  <div></div>
+  <div></div>
+  <div></div>
 </div>
+
+<!-- SLIDE MENU -->
+<nav id="sideMenu">
+  <h2 style="color:#00c8ff; text-shadow:0 0 8px #00c8ff;">Navigation</h2>
+  <a href="index.html">Home</a>
+  <a href="role_finder.html">Find Your Role</a>
+  <a href="role_list.html">All Roles</a>
+  <a href="tests_home.html">Assessment Trials</a>
+  <a href="run_tracker.html">1‑Mile Run Tracker</a>
+  <a href="profile.html">My Profile</a>
+  <a href="settings.html">Settings</a>
+</nav>
 
 <header>
-  <h1>Find Your Role – Advanced Assessment</h1>
+  <h1>Find Your Role</h1>
+  <p class="subtitle">Complete all 4 pages and all tests to unlock your Role ID.</p>
 </header>
 
-<!-- TOP NAVIGATION -->
-<div class="top-links">
-  <a href="index.html">Home</a>
-  <a href="tests_home.html">Test Center</a>
-  <a href="test_math_arithmetic.html">Math Test</a>
-  <a href="test_science_combined.html">Science Test</a>
-  <a href="#">Reading Test (Soon)</a>
-</div>
+<!-- STATUS BAR -->
+<div id="moduleStatus">Loading...</div>
 
-<!-- STEP INDICATOR -->
-<div class="step-indicator">
-  <span id="stepDot1" class="active">Page 1</span>
-  <span id="stepDot2">Page 2</span>
-  <span id="stepDot3">Page 3</span>
-  <span id="stepDot4">Page 4</span>
-</div>
+<main>
 
-<!-- FORM -->
 <form id="roleFinderForm">
 
-<!-- PAGE 1 -->
-<section id="rfStep1" class="matrix-panel rf-step active">
-  <h2>Page 1 – Interests & Physical Activity</h2>
+  <!-- PAGE 1 -->
+  <section id="rfStep1" class="rf-step active matrix-panel">
+    <h2>Page 1 – Interests & Physical Activity</h2>
 
-  <div class="question-block">
-    <div class="question-number">1. Interests</div>
-    <label><input type="checkbox" name="interests" value="history"> History & Documentation</label>
-    <label><input type="checkbox" name="interests" value="fitness"> Fitness & Physical Readiness</label>
-    <label><input type="checkbox" name="interests" value="mapping"> Mapping & Navigation</label>
-    <label><input type="checkbox" name="interests" value="media"> Media & Design</label>
-    <label><input type="checkbox" name="interests" value="community"> Community Support</label>
-    <label><input type="checkbox" name="interests" value="analysis"> Analysis & Strategy</label>
-    <label><input type="checkbox" name="interests" value="tech"> Technology & Systems</label>
-    <label><input type="checkbox" name="interests" value="leadership"> Leadership & Coordination</label>
-    <label><input type="checkbox" name="interests" value="problem_solving"> Problem Solving</label>
-    <label><input type="checkbox" name="interests" value="writing"> Writing & Communication</label>
-    <label><input type="checkbox" name="interests" value="first_aid"> First Aid & Care</label>
-  </div>
+    <h3>Interests</h3>
+    <label><input type="checkbox" name="interests" value="history"> History</label><br>
+    <label><input type="checkbox" name="interests" value="mapping"> Mapping</label><br>
+    <label><input type="checkbox" name="interests" value="tech"> Technology</label><br>
+    <label><input type="checkbox" name="interests" value="analysis"> Analysis</label><br>
+    <label><input type="checkbox" name="interests" value="community"> Community</label><br>
 
-  <div class="question-block">
-    <div class="question-number">2. Physical Activity</div>
-    <label><input type="radio" name="exercise" value="heavy"> Heavy</label>
-    <label><input type="radio" name="exercise" value="moderate"> Moderate</label>
-    <label><input type="radio" name="exercise" value="low"> Low</label>
-  </div>
+    <h3>Exercise Level</h3>
+    <label><input type="radio" name="exercise" value="heavy"> Heavy</label><br>
+    <label><input type="radio" name="exercise" value="moderate"> Moderate</label><br>
+    <label><input type="radio" name="exercise" value="low"> Low</label><br>
 
-  <div class="question-block">
-    <div class="question-number">3. Energy & Endurance</div>
-    <label><input type="radio" name="endurance" value="high"> High</label>
-    <label><input type="radio" name="endurance" value="medium"> Medium</label>
-    <label><input type="radio" name="endurance" value="low"> Low</label>
-  </div>
+    <div class="rf-nav">
+      <span></span>
+      <button type="button" id="nextStep1" class="menu-btn">Next</button>
+    </div>
+  </section>
 
-  <div class="rf-nav">
-    <span></span>
-    <button type="button" id="nextStep1" class="menu-btn small">Next</button>
-  </div>
-</section>
+  <!-- PAGE 2 -->
+  <section id="rfStep2" class="rf-step matrix-panel">
+    <h2>Page 2 – Pressure & Ethics</h2>
 
-<!-- PAGE 2 -->
-<section id="rfStep2" class="matrix-panel rf-step">
-  <h2>Page 2 – Pressure, Consistency, Ethics</h2>
+    <h3>Pressure Style</h3>
+    <label><input type="radio" name="pressure_style" value="calm_plan"> Stay calm</label><br>
+    <label><input type="radio" name="pressure_style" value="move_fast"> Move fast</label><br>
+    <label><input type="radio" name="pressure_style" value="help_others"> Help others</label><br>
 
-  <div class="question-block">
-    <div class="question-number">4. Under Pressure</div>
-    <label><input type="radio" name="pressure_style" value="calm_plan"> I stay calm and plan.</label>
-    <label><input type="radio" name="pressure_style" value="move_fast"> I move fast.</label>
-    <label><input type="radio" name="pressure_style" value="help_others"> I help others.</label>
-    <label><input type="radio" name="pressure_style" value="document"> I document.</label>
-  </div>
+    <h3>Consistency Check</h3>
+    <label><input type="radio" name="pressure_style_check" value="calm_plan"> Think first</label><br>
+    <label><input type="radio" name="pressure_style_check" value="move_fast"> Act first</label><br>
+    <label><input type="radio" name="pressure_style_check" value="help_others"> Help first</label><br>
 
-  <div class="question-block">
-    <div class="question-number">5. Consistency Check</div>
-    <label><input type="radio" name="pressure_style_check" value="calm_plan"> I think before acting.</label>
-    <label><input type="radio" name="pressure_style_check" value="move_fast"> I act before thinking.</label>
-    <label><input type="radio" name="pressure_style_check" value="help_others"> I help first.</label>
-    <label><input type="radio" name="pressure_style_check" value="document"> I capture details.</label>
-  </div>
+    <h3>Ethics</h3>
+    <label><input type="radio" name="ethics" value="protect_people"> Protect people</label><br>
+    <label><input type="radio" name="ethics" value="protect_truth"> Protect truth</label><br>
 
-  <div class="question-block">
-    <div class="question-number">6. Ethics</div>
-    <label><input type="radio" name="ethics" value="protect_people"> Protect people</label>
-    <label><input type="radio" name="ethics" value="protect_truth"> Protect truth</label>
-    <label><input type="radio" name="ethics" value="protect_self"> Protect self</label>
-    <label><input type="radio" name="ethics" value="protect_order"> Protect order</label>
-  </div>
+    <div class="rf-nav">
+      <button type="button" id="prevStep2" class="menu-btn">Back</button>
+      <button type="button" id="nextStep2" class="menu-btn">Next</button>
+    </div>
+  </section>
 
-  <div class="question-block">
-    <div class="question-number">7. Risk Tolerance</div>
-    <label><input type="radio" name="risk" value="high"> High</label>
-    <label><input type="radio" name="risk" value="medium"> Medium</label>
-    <label><input type="radio" name="risk" value="low"> Low</label>
-  </div>
+  <!-- PAGE 3 -->
+  <section id="rfStep3" class="rf-step matrix-panel">
+    <h2>Page 3 – Skills & Tools</h2>
 
-  <div class="question-block">
-    <div class="question-number">8. Decision Speed</div>
-    <label><input type="radio" name="decision_speed" value="fast"> Fast</label>
-    <label><input type="radio" name="decision_speed" value="balanced"> Balanced</label>
-    <label><input type="radio" name="decision_speed" value="slow"> Slow</label>
-  </div>
+    <h3>Skills</h3>
+    <label><input type="checkbox" name="skills" value="first_aid"> First Aid</label><br>
+    <label><input type="checkbox" name="skills" value="computer"> Computer</label><br>
+    <label><input type="checkbox" name="skills" value="radio"> Radio</label><br>
+    <label><input type="checkbox" name="skills" value="design"> Design</label><br>
+    <label><input type="checkbox" name="skills" value="logistics"> Logistics</label><br>
 
-  <div class="rf-nav">
-    <button type="button" id="prevStep2" class="menu-btn small">Back</button>
-    <button type="button" id="nextStep2" class="menu-btn small">Next</button>
-  </div>
-</section>
+    <div class="rf-nav">
+      <button type="button" id="prevStep3" class="menu-btn">Back</button>
+      <button type="button" id="nextStep3" class="menu-btn">Next</button>
+    </div>
+  </section>
 
-<!-- PAGE 3 -->
-<section id="rfStep3" class="matrix-panel rf-step">
-  <h2>Page 3 – Skills, Tools, Tech</h2>
+  <!-- PAGE 4 -->
+  <section id="rfStep4" class="rf-step matrix-panel">
+    <h2>Page 4 – Scenarios</h2>
 
-  <div class="question-block">
-    <div class="question-number">9. Skills</div>
-    <label><input type="checkbox" name="skills" value="first_aid"> First Aid</label>
-    <label><input type="checkbox" name="skills" value="computer"> Computer Skills</label>
-    <label><input type="checkbox" name="skills" value="radio"> Radio / Comms</label>
-    <label><input type="checkbox" name="skills" value="writing"> Writing / Documentation</label>
-    <label><input type="checkbox" name="skills" value="design"> Design / Media</label>
-    <label><input type="checkbox" name="skills" value="logistics"> Logistics / Planning</label>
-    <label><input type="checkbox" name="skills" value="teaching"> Teaching / Training</label>
-    <label><input type="checkbox" name="skills" value="mechanical"> Mechanical / Tools</label>
-    <label><input type="checkbox" name="skills" value="navigation"> Navigation / Mapping</label>
-    <label><input type="checkbox" name="skills" value="analysis"> Analysis / Strategy</label>
-  </div>
+    <h3>Agents at the Door</h3>
+    <label><input type="radio" name="agent_door" value="boundary"> Set boundaries</label><br>
+    <label><input type="radio" name="agent_door" value="document"> Document</label><br>
 
-  <div class="question-block">
-    <div class="question-number">10. Tech Comfort</div>
-    <label><input type="radio" name="tech_comfort" value="high"> High</label>
-    <label><input type="radio" name="tech_comfort" value="medium"> Medium</label>
-    <label><input type="radio" name="tech_comfort" value="low"> Low</label>
-  </div>
+    <h3>Crowd & Force</h3>
+    <label><input type="radio" name="crowd_force" value="guide"> Guide people</label><br>
+    <label><input type="radio" name="crowd_force" value="record"> Record</label><br>
 
-  <div class="question-block">
-    <div class="question-number">11. Tool Familiarity</div>
-    <label><input type="checkbox" name="tools" value="gps"> GPS / Mapping Apps</label>
-    <label><input type="checkbox" name="tools" value="camera"> Camera / Recording Tools</label>
-    <label><input type="checkbox" name="tools" value="first_aid_kit"> First Aid Kit</label>
-    <label><input type="checkbox" name="tools" value="radio_tools"> Radios / Scanners</label>
-    <label><input type="checkbox" name="tools" value="software"> Software Tools</label>
-  </div>
+    <h3>Group Role</h3>
+    <label><input type="radio" name="group_role" value="organizer"> Organizer</label><br>
+    <label><input type="radio" name="group_role" value="support"> Support</label><br>
 
-  <div class="rf-nav">
-    <button type="button" id="prevStep3" class="menu-btn small">Back</button>
-    <button type="button" id="nextStep3" class="menu-btn small">Next</button>
-  </div>
-</section>
-
-<!-- PAGE 4 -->
-<section id="rfStep4" class="matrix-panel rf-step">
-  <h2>Page 4 – Scenarios & Group Behavior</h2>
-
-  <div class="question-block">
-    <div class="question-number">12. Agents at the Door</div>
-    <label><input type="radio" name="agent_door" value="boundary"> Set boundaries</label>
-    <label><input type="radio" name="agent_door" value="document"> Document</label>
-    <label><input type="radio" name="agent_door" value="comply"> Comply</label>
-    <label><input type="radio" name="agent_door" value="call_support"> Call support</label>
-  </div>
-
-  <div class="question-block">
-    <div class="question-number">13. Crowd & Force</div>
-    <label><input type="radio" name="crowd_force" value="guide"> Guide people</label>
-    <label><input type="radio" name="crowd_force" value="record"> Record</label>
-    <label><input type="radio" name="crowd_force" value="aid"> Provide aid</label>
-    <label><input type="radio" name="crowd_force" value="signal"> Relay signals</label>
-  </div>
-
-  <div class="question-block">
-    <div class="question-number">14. Group Behavior</div>
-    <label><input type="radio" name="group_role" value="organizer"> Organizer</label>
-    <label><input type="radio" name="group_role" value="support"> Support</label>
-    <label><input type="radio" name="group_role" value="scout"> Scout</label>
-    <label><input type="radio" name="group_role" value="recorder"> Recorder</label>
-  </div>
-
-  <div class="rf-nav">
-    <button type="button" id="prevStep4" class="menu-btn small">Back</button>
-    <button type="submit" class="menu-btn small">Finish</button>
-  </div>
-</section>
+    <div class="rf-nav">
+      <button type="button" id="prevStep4" class="menu-btn">Back</button>
+      <button type="submit" class="menu-btn">Finish</button>
+    </div>
+  </section>
 
 </form>
 
-<!-- JS: MATRIX RAIN + STEP LOGIC -->
+<!-- RESULT SECTION -->
+<section id="roleResultSection" style="display:none; margin:20px;" class="matrix-panel">
+  <h2>Your Role Result</h2>
+  <p id="roleResultText"></p>
+  <a href="profile.html" class="menu-btn">View Profile</a>
+</section>
+
+</main>
+
 <script>
-// MATRIX RAIN
-const canvas = document.getElementById('matrixRain');
-const ctx = canvas.getContext('2d');
+  // HAMBURGER MENU
+  const hamburger = document.getElementById("hamburger");
+  const sideMenu = document.getElementById("sideMenu");
+  hamburger.addEventListener("click", () => sideMenu.classList.toggle("open"));
 
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
+  // STEP NAVIGATION
+  const steps = ["rfStep1","rfStep2","rfStep3","rfStep4"];
+  let current = 0;
 
-const chars = "01";
-const fontSize = 16;
-const columns = canvas.width / fontSize;
-const drops = [];
-
-for (let i = 0; i < columns; i++) drops[i] = 1;
-
-function draw() {
-  ctx.fillStyle = "rgba(0, 0, 20, 0.08)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.fillStyle = "#00c8ff";
-  ctx.font = fontSize + "px monospace";
-
-  for (let i = 0; i < drops.length; i++) {
-    const text = chars[Math.floor(Math.random() * chars.length)];
-    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
-      drops[i] = 0;
-
-    drops[i]++;
+  function showStep(i) {
+    document.getElementById(steps[current]).classList.remove("active");
+    current = i;
+    document.getElementById(steps[current]).classList.add("active");
   }
-}
 
-setInterval(draw, 40);
+  document.getElementById("nextStep1").onclick = () => showStep(1);
+  document.getElementById("nextStep2").onclick = () => showStep(2);
+  document.getElementById("nextStep3").onclick = () => showStep(3);
 
-// STEP LOGIC
-let currentStep = 1;
+  document.getElementById("prevStep2").onclick = () => showStep(0);
+  document.getElementById("prevStep3").onclick = () => showStep(1);
+  document.getElementById("prevStep4").onclick = () => showStep(2);
+</script>
 
-function updateStepIndicator() {
-  document.querySelectorAll('.step-indicator span').forEach((dot, index) => {
-    dot.classList.toggle('active', index + 1 === currentStep);
-  });
-}
+<script src="storage_manager.js"></script>
+<script src="assessment_state.js"></script>
+<script src="role_finder_logic.js"></script>
 
-function showStep(step
+</body>
+</html>
