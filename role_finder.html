@@ -85,6 +85,9 @@
       margin-top: 10px;
       box-shadow: 0 0 10px #0077cc;
     }
+
+    h3 { margin-top: 18px; }
+    label { color:#8fd3ff; }
   </style>
 </head>
 
@@ -111,7 +114,7 @@
 
 <header>
   <h1>Find Your Role</h1>
-  <p class="subtitle">Complete all 4 pages and all tests to unlock your Role ID.</p>
+  <p class="subtitle">Real roles for real conditions. Complete all 4 pages and all tests to unlock your Role ID.</p>
 </header>
 
 <!-- STATUS BAR -->
@@ -123,19 +126,20 @@
 
   <!-- PAGE 1 -->
   <section id="rfStep1" class="rf-step active matrix-panel">
-    <h2>Page 1 – Interests & Physical Activity</h2>
+    <h2>Page 1 – What You Gravitate Toward</h2>
 
-    <h3>Interests</h3>
-    <label><input type="checkbox" name="interests" value="history"> History</label><br>
-    <label><input type="checkbox" name="interests" value="mapping"> Mapping</label><br>
-    <label><input type="checkbox" name="interests" value="tech"> Technology</label><br>
-    <label><input type="checkbox" name="interests" value="analysis"> Analysis</label><br>
-    <label><input type="checkbox" name="interests" value="community"> Community</label><br>
+    <h3>When things get unstable in your city, what are you naturally drawn to?</h3>
+    <label><input type="checkbox" name="interests" value="mapping"> Finding routes, shortcuts, and safe paths</label><br>
+    <label><input type="checkbox" name="interests" value="history"> Remembering and recording what really happened</label><br>
+    <label><input type="checkbox" name="interests" value="tech"> Setting up devices, networks, or tools</label><br>
+    <label><input type="checkbox" name="interests" value="analysis"> Watching patterns, signals, or behavior</label><br>
+    <label><input type="checkbox" name="interests" value="community"> Checking on people, connecting neighbors</label><br>
 
-    <h3>Exercise Level</h3>
-    <label><input type="radio" name="exercise" value="heavy"> Heavy</label><br>
-    <label><input type="radio" name="exercise" value="moderate"> Moderate</label><br>
-    <label><input type="radio" name="exercise" value="low"> Low</label><br>
+    <h3>Physical Activity & Endurance</h3>
+    <p>On a normal week, how active are you?</p>
+    <label><input type="radio" name="exercise" value="heavy"> Very active – long walks, runs, or sports are normal</label><br>
+    <label><input type="radio" name="exercise" value="moderate"> Moderate – I move regularly but not intensely</label><br>
+    <label><input type="radio" name="exercise" value="low"> Low – I’m mostly stationary or indoors</label><br>
 
     <div class="rf-nav">
       <span></span>
@@ -145,21 +149,33 @@
 
   <!-- PAGE 2 -->
   <section id="rfStep2" class="rf-step matrix-panel">
-    <h2>Page 2 – Pressure & Ethics</h2>
+    <h2>Page 2 – Pressure, Ethics, and Risk</h2>
 
-    <h3>Pressure Style</h3>
-    <label><input type="radio" name="pressure_style" value="calm_plan"> Stay calm</label><br>
-    <label><input type="radio" name="pressure_style" value="move_fast"> Move fast</label><br>
-    <label><input type="radio" name="pressure_style" value="help_others"> Help others</label><br>
+    <h3>Under pressure, what’s your first instinct?</h3>
+    <label><input type="radio" name="pressure_style" value="calm_plan"> Slow things down, get a clear plan</label><br>
+    <label><input type="radio" name="pressure_style" value="move_fast"> Move fast, act before things get worse</label><br>
+    <label><input type="radio" name="pressure_style" value="help_others"> Look for who needs help first</label><br>
 
-    <h3>Consistency Check</h3>
-    <label><input type="radio" name="pressure_style_check" value="calm_plan"> Think first</label><br>
-    <label><input type="radio" name="pressure_style_check" value="move_fast"> Act first</label><br>
-    <label><input type="radio" name="pressure_style_check" value="help_others"> Help first</label><br>
+    <h3>Same situation, different wording – what sounds most like you?</h3>
+    <label><input type="radio" name="pressure_style_check" value="calm_plan"> Think first, then move</label><br>
+    <label><input type="radio" name="pressure_style_check" value="move_fast"> Move first, adjust later</label><br>
+    <label><input type="radio" name="pressure_style_check" value="help_others"> Check on people first</label><br>
 
-    <h3>Ethics</h3>
-    <label><input type="radio" name="ethics" value="protect_people"> Protect people</label><br>
-    <label><input type="radio" name="ethics" value="protect_truth"> Protect truth</label><br>
+    <h3>Ethics in a modern conflict</h3>
+    <p>In a civil breakdown, what do you feel most responsible to protect?</p>
+    <label><input type="radio" name="ethics" value="protect_people"> People’s bodies and safety</label><br>
+    <label><input type="radio" name="ethics" value="protect_truth"> Truth, evidence, and what really happened</label><br>
+
+    <h3>Risk & Decision Speed</h3>
+    <p>How do you relate to risk when things are unstable?</p>
+    <label><input type="radio" name="risk" value="low"> I avoid risk unless there’s no choice</label><br>
+    <label><input type="radio" name="risk" value="medium"> I’ll take some risk if it’s thought through</label><br>
+    <label><input type="radio" name="risk" value="high"> I’ll take big risks if it might help</label><br>
+
+    <p>How fast do you decide when something urgent happens?</p>
+    <label><input type="radio" name="decision_speed" value="slow"> I need a moment to think</label><br>
+    <label><input type="radio" name="decision_speed" value="medium"> I decide at a steady pace</label><br>
+    <label><input type="radio" name="decision_speed" value="fast"> I decide almost instantly</label><br>
 
     <div class="rf-nav">
       <button type="button" id="prevStep2" class="menu-btn">Back</button>
@@ -169,14 +185,29 @@
 
   <!-- PAGE 3 -->
   <section id="rfStep3" class="rf-step matrix-panel">
-    <h2>Page 3 – Skills & Tools</h2>
+    <h2>Page 3 – Skills, Tools, and Comfort Zones</h2>
 
-    <h3>Skills</h3>
-    <label><input type="checkbox" name="skills" value="first_aid"> First Aid</label><br>
-    <label><input type="checkbox" name="skills" value="computer"> Computer</label><br>
-    <label><input type="checkbox" name="skills" value="radio"> Radio</label><br>
-    <label><input type="checkbox" name="skills" value="design"> Design</label><br>
-    <label><input type="checkbox" name="skills" value="logistics"> Logistics</label><br>
+    <h3>Skills you already have or could learn quickly</h3>
+    <label><input type="checkbox" name="skills" value="first_aid"> First aid / basic medical care</label><br>
+    <label><input type="checkbox" name="skills" value="computer"> Computer / network / basic coding</label><br>
+    <label><input type="checkbox" name="skills" value="radio"> Radios / comms / walkie‑talkies</label><br>
+    <label><input type="checkbox" name="skills" value="design"> Design / layout / visual communication</label><br>
+    <label><input type="checkbox" name="skills" value="logistics"> Logistics / organizing supplies / moving things</label><br>
+    <label><input type="checkbox" name="skills" value="writing"> Writing / documenting / storytelling</label><br>
+    <label><input type="checkbox" name="skills" value="navigation"> Navigation / maps / wayfinding</label><br>
+
+    <h3>Tech Comfort</h3>
+    <p>How comfortable are you with devices, apps, and basic troubleshooting?</p>
+    <label><input type="radio" name="tech_comfort" value="low"> I struggle with tech</label><br>
+    <label><input type="radio" name="tech_comfort" value="medium"> I can handle normal stuff</label><br>
+    <label><input type="radio" name="tech_comfort" value="high"> I’m the one people ask for help</label><br>
+
+    <h3>Tools you’re willing to handle in a crisis</h3>
+    <label><input type="checkbox" name="tools" value="paper_maps"> Paper maps, pens, clipboards</label><br>
+    <label><input type="checkbox" name="tools" value="radios"> Radios, walkie‑talkies, scanners</label><br>
+    <label><input type="checkbox" name="tools" value="laptops"> Laptops, tablets, local servers</label><br>
+    <label><input type="checkbox" name="tools" value="medical_kit"> Medical kits, bandages, basic supplies</label><br>
+    <label><input type="checkbox" name="tools" value="camera"> Camera / phone for documentation</label><br>
 
     <div class="rf-nav">
       <button type="button" id="prevStep3" class="menu-btn">Back</button>
@@ -186,19 +217,26 @@
 
   <!-- PAGE 4 -->
   <section id="rfStep4" class="rf-step matrix-panel">
-    <h2>Page 4 – Scenarios</h2>
+    <h2>Page 4 – Real Scenarios in a Modern Breakdown</h2>
 
     <h3>Agents at the Door</h3>
-    <label><input type="radio" name="agent_door" value="boundary"> Set boundaries</label><br>
-    <label><input type="radio" name="agent_door" value="document"> Document</label><br>
+    <p>Plain‑clothes agents knock on a neighbor’s door asking questions. You’re nearby and aware.</p>
+    <label><input type="radio" name="agent_door" value="boundary"> Help the neighbor set boundaries and ask for a warrant</label><br>
+    <label><input type="radio" name="agent_door" value="document"> Quietly document what’s happening from a safe distance</label><br>
+    <label><input type="radio" name="agent_door" value="comply"> Encourage them to just answer questions and keep it calm</label><br>
 
     <h3>Crowd & Force</h3>
-    <label><input type="radio" name="crowd_force" value="guide"> Guide people</label><br>
-    <label><input type="radio" name="crowd_force" value="record"> Record</label><br>
+    <p>A protest turns tense. Police lines move in, people are confused and scared.</p>
+    <label><input type="radio" name="crowd_force" value="guide"> Help guide people to safer routes and exits</label><br>
+    <label><input type="radio" name="crowd_force" value="record"> Focus on recording and capturing clear evidence</label><br>
+    <label><input type="radio" name="crowd_force" value="support"> Move toward injured or panicked people to support them</label><br>
 
-    <h3>Group Role</h3>
-    <label><input type="radio" name="group_role" value="organizer"> Organizer</label><br>
-    <label><input type="radio" name="group_role" value="support"> Support</label><br>
+    <h3>Your Natural Group Role</h3>
+    <p>In any group under stress, what do you end up doing without being asked?</p>
+    <label><input type="radio" name="group_role" value="organizer"> Organizing tasks, people, and next steps</label><br>
+    <label><input type="radio" name="group_role" value="support"> Quiet support – checking on individuals, filling gaps</label><br>
+    <label><input type="radio" name="group_role" value="scout"> Moving ahead or around to see what’s coming</label><br>
+    <label><input type="radio" name="group_role" value="communicator"> Relaying information between people or groups</label><br>
 
     <div class="rf-nav">
       <button type="button" id="prevStep4" class="menu-btn">Back</button>
